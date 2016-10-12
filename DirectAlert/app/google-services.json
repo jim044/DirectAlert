@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "63715726985",
+    "project_id": "direct-alert"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63715726985:android:cc25f01f01fac0b4",
+        "android_client_info": {
+          "package_name": "com.directalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63715726985-pab1fskrqobbgic9fdn7rcrk08rh8e9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.directalert",
+            "certificate_hash": "0BC4D89DF14310C4BF3F2880DC57A73459503E36"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
