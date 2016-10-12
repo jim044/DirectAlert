@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.application', 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 24
@@ -22,5 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.google.android.gms:play-services-auth:9.2.1'
+    classpath 'com.google.gms:google-services:3.0.0'
 }
+
