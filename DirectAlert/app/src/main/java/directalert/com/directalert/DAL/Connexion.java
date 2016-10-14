@@ -1,6 +1,10 @@
-package directalert.com.directalert;
+package directalert.com.directalert.DAL;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
+import android.database.Cursor;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +20,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.api.client.googleapis.extensions.android.accounts.GoogleAccountManager;
+
+import directalert.com.directalert.Home;
+import directalert.com.directalert.R;
 
 public class Connexion extends AppCompatActivity {
 
@@ -55,6 +63,9 @@ public class Connexion extends AppCompatActivity {
                 signIn();
             }
         });
+
+        Intent intent = new Intent(Connexion.this, Home.class);
+        startActivity(intent);
     }
 
     private void signIn() {
@@ -97,4 +108,6 @@ public class Connexion extends AppCompatActivity {
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
+
+
 }
