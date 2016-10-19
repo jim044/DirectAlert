@@ -42,8 +42,11 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import directalert.com.directalert.BO.EventUser;
+import directalert.com.directalert.BO.User;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -65,7 +68,7 @@ public class Home extends AppCompatActivity {
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
-    private List<String> testlist = null;
+    private List<EventUser> listEventUser = new ArrayList<EventUser>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,7 +294,7 @@ public class Home extends AppCompatActivity {
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    private class MakeRequestTask extends AsyncTask<Void, Void, List<EventUser>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
 
@@ -309,7 +312,7 @@ public class Home extends AppCompatActivity {
          * @param params no parameters needed for this task.
          */
         @Override
-        protected List<String> doInBackground(Void... params) {
+        protected List<EventUser> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
@@ -324,9 +327,8 @@ public class Home extends AppCompatActivity {
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        private List<String> getDataFromApi() throws IOException, IOException {
+        private List<EventUser> getDataFromApi() throws IOException, IOException {
             // List the next 10 events from the primary calendar.
-
 
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<String>();
@@ -334,29 +336,22 @@ public class Home extends AppCompatActivity {
             Events events;
             try {
                 events = mService.events().list("primary")
-                        .setMaxResults(10)
-                        .setTimeMin(now)
-                        .setOrderBy("startTime")
-                        .setSingleEvents(true)
-                        .execute();
+                            .setMaxResults(10)
+                            .setTimeMin(now)
+                            .setOrderBy("startTime")
+                            .setSingleEvents(true)
+                            .execute();
                 items = events.getItems();
             }
             catch (UserRecoverableAuthIOException e) {
                 startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
             }
 
-
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    // All-day events don't have start times, so just use
-                    // the start date.
-                    start = event.getStart().getDate();
-                }
-                eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
+                listEventUser.add(new EventUser(event.getId(), start, event.getSummary(), event.getDescription(), event.getLocation(), new User(mCredential.getSelectedAccountName())));
             }
-            return eventStrings;
+            return listEventUser;
         }
 
 
@@ -367,12 +362,12 @@ public class Home extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<String> output) {
+        protected void onPostExecute(List<EventUser> output) {
             //mProgress.hide();
             if (output == null || output.size() == 0) {
                 //mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+                //output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
             }
         }
