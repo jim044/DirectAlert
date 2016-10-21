@@ -10,10 +10,10 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,11 +42,9 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import directalert.com.directalert.BO.EventUser;
-import directalert.com.directalert.BO.User;
+import directalert.com.directalert.BO.*;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -68,7 +66,7 @@ public class Home extends AppCompatActivity {
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
-    private List<EventUser> listEventUser = new ArrayList<EventUser>();
+    private ListEventUser listEventUser = new ListEventUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,32 +78,36 @@ public class Home extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
+
+                mGoogleApiClient = new GoogleApiClient.Builder(Home.this)
+                        .enableAutoManage(Home.this /* FragmentActivity */,
+                                new GoogleApiClient.OnConnectionFailedListener() {
+                                    @Override
+                                    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+                                    }
+                                })
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
+
                 signIn();
+
+
+
+                // Initialize credentials and service object.
+                mCredential = GoogleAccountCredential.usingOAuth2(
+                        getApplicationContext(), Arrays.asList(SCOPES))
+                        .setBackOff(new ExponentialBackOff());
+
+
                 getResultsFromApi();
+
             }
         });
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,
-                        new GoogleApiClient.OnConnectionFailedListener() {
-                            @Override
-                            public void onConnectionFailed(ConnectionResult connectionResult) {
-
-                            }
-                            // methods go here
-                        })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        // Initialize credentials and service object.
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-
 
     }
 
@@ -349,7 +351,7 @@ public class Home extends AppCompatActivity {
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
-                listEventUser.add(new EventUser(event.getId(), start, event.getSummary(), event.getDescription(), event.getLocation(), new User(mCredential.getSelectedAccountName())));
+                listEventUser.add(new EventUser(event.getId(), start, event.getSummary(), event.getDescription(), event.getLocation()));
             }
             return listEventUser;
         }
@@ -367,8 +369,12 @@ public class Home extends AppCompatActivity {
             if (output == null || output.size() == 0) {
                 //mOutputText.setText("No results returned.");
             } else {
+
                 //output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
+                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
+                startActivity(myIntent);
             }
         }
 
@@ -408,6 +414,7 @@ public class Home extends AppCompatActivity {
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
+
         }
     }
 

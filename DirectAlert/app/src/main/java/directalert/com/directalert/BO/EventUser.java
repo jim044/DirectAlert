@@ -1,5 +1,8 @@
 package directalert.com.directalert.BO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.api.client.util.DateTime;
 
 import java.util.Date;
@@ -8,7 +11,7 @@ import java.util.Date;
  * Created by user on 19/10/2016.
  */
 
-public class EventUser {
+public class EventUser implements Parcelable {
 
     private String id; //Utile
     private Date created; //Utile
@@ -40,6 +43,14 @@ public class EventUser {
         this.description = description;
         this.location = location;
         this.user = user;
+    }
+
+    public EventUser(String id, DateTime start, String summary, String description, String location) {
+        this.id = id;
+        this.start = start;
+        this.summary = summary;
+        this.description = description;
+        this.location = location;
     }
 
     public String getId() {
@@ -185,5 +196,53 @@ public class EventUser {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+    public EventUser(Parcel in)
+    {
+        this.getFromParcel(in);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
+    {
+        public EventUser createFromParcel(Parcel in)
+        {
+            return new EventUser(in);
+        }
+
+        @Override
+        public Object[] newArray(int size) {
+            return null;
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    //On ecrit dans le parcel les données de notre objet
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeString(this.getId());
+        dest.writeString(String.valueOf(this.getStart()));
+        dest.writeString(this.getSummary());
+        dest.writeString(this.getDescription());
+        dest.writeString(this.getLocation());
+
+    }
+
+    //On va ici hydrater notre objet à partir du Parcel
+    public void getFromParcel(Parcel in)
+    {
+        this.setId(in.readString());
+        this.setStart(DateTime.parseRfc3339(in.readString()));
+        this.setSummary(in.readString());
+        this.setDescription(in.readString());
+        this.setLocation(in.readString());
+    }
+
 }
 
