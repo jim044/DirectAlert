@@ -351,7 +351,7 @@ public class Home extends AppCompatActivity {
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
-                listEventUser.add(new EventUser(event.getId(), start, event.getSummary(), event.getDescription(), event.getLocation()));
+                listEventUser.add(new EventUser(event.getId(), event.getSummary(), event.getDescription(), event.getLocation()));
             }
             return listEventUser;
         }

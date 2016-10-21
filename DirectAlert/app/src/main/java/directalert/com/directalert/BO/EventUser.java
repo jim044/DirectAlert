@@ -53,6 +53,13 @@ public class EventUser implements Parcelable {
         this.location = location;
     }
 
+    public EventUser(String id, String summary, String description, String location) {
+        this.id = id;
+        this.summary = summary;
+        this.description = description;
+        this.location = location;
+    }
+
     public String getId() {
         return id;
     }
@@ -227,7 +234,6 @@ public class EventUser implements Parcelable {
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(this.getId());
-        dest.writeString(String.valueOf(this.getStart()));
         dest.writeString(this.getSummary());
         dest.writeString(this.getDescription());
         dest.writeString(this.getLocation());
@@ -238,7 +244,6 @@ public class EventUser implements Parcelable {
     public void getFromParcel(Parcel in)
     {
         this.setId(in.readString());
-        this.setStart(DateTime.parseRfc3339(in.readString()));
         this.setSummary(in.readString());
         this.setDescription(in.readString());
         this.setLocation(in.readString());

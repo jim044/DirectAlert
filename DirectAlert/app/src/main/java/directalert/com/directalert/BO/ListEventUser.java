@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.api.client.util.DateTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by user on 21/10/2016.
@@ -21,15 +22,17 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
         this.getFromParcel(in);
     }
 
-    public static final Creator<ListEventUser> CREATOR = new Creator<ListEventUser>() {
-        @Override
-        public ListEventUser createFromParcel(Parcel in) {
+    @SuppressWarnings("rawtypes")
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
+    {
+        public ListEventUser createFromParcel(Parcel in)
+        {
             return new ListEventUser(in);
         }
 
         @Override
-        public ListEventUser[] newArray(int size) {
-            return new ListEventUser[size];
+        public Object[] newArray(int size) {
+            return null;
         }
     };
 
@@ -47,7 +50,6 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
         {
             EventUser eventUser = this.get(i);
             dest.writeString(eventUser.getId());
-            dest.writeString(String.valueOf(eventUser.getStart()));
             dest.writeString(eventUser.getSummary());
             dest.writeString(eventUser.getDescription());
             dest.writeString(eventUser.getLocation());
@@ -68,7 +70,6 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
         {
             EventUser eventUser = new EventUser();
             eventUser.setId(in.readString());
-            eventUser.setStart(in.readByte());
             eventUser.setSummary(in.readString());
             eventUser.setDescription(in.readString());
             eventUser.setLocation(in.readString());
