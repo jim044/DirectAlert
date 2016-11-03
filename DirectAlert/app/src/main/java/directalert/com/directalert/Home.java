@@ -80,32 +80,35 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build();
+                Intent myIntent = new Intent(Home.this, PushNotification.class);
+                startActivity(myIntent);
 
-                mGoogleApiClient = new GoogleApiClient.Builder(Home.this)
-                        .enableAutoManage(Home.this /* FragmentActivity */,
-                                new GoogleApiClient.OnConnectionFailedListener() {
-                                    @Override
-                                    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-                                    }
-                                })
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build();
-
-                signIn();
-
-
-
-                // Initialize credentials and service object.
-                mCredential = GoogleAccountCredential.usingOAuth2(
-                        getApplicationContext(), Arrays.asList(SCOPES))
-                        .setBackOff(new ExponentialBackOff());
-
-
-                getResultsFromApi();
+//                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                        .requestEmail()
+//                        .build();
+//
+//                mGoogleApiClient = new GoogleApiClient.Builder(Home.this)
+//                        .enableAutoManage(Home.this /* FragmentActivity */,
+//                                new GoogleApiClient.OnConnectionFailedListener() {
+//                                    @Override
+//                                    public void onConnectionFailed(ConnectionResult connectionResult) {
+//
+//                                    }
+//                                })
+//                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                        .build();
+//
+//                signIn();
+//
+//
+//
+//                // Initialize credentials and service object.
+//                mCredential = GoogleAccountCredential.usingOAuth2(
+//                        getApplicationContext(), Arrays.asList(SCOPES))
+//                        .setBackOff(new ExponentialBackOff());
+//
+//
+//                getResultsFromApi();
 
             }
         });

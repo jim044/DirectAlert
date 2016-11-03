@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
+
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
@@ -25,18 +25,26 @@ android {
             force 'com.android.support:support-v4:23.4.0'
             force 'com.android.support:appcompat-v7:23.4.0'
         }
+
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.android.gms:play-services-gcm:8.3.0'
-    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'com.google.firebase:firebase-messaging:9.8.0'
+    compile 'com.google.firebase:firebase-core:9.8.0'
+    compile 'com.google.firebase:firebase-invites:9.8.0'
+    compile 'com.google.firebase:firebase-ads:9.8.0'
+    compile 'com.google.firebase:firebase-core:9.8.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1', 'com.google.android.gms:play-services-auth:8.3.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.android.gms:play-services:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-location:9.8.0'
+    compile 'com.google.android.gms:play-services-places:9.8.0'
     //compile group: 'com.google.apis', name: 'google-api-services-calendar', version: 'v3-rev215-1.22.0'
 
     compile 'pub.devrel:easypermissions:0.1.5'
@@ -54,3 +62,5 @@ dependencies {
     //    exclude group: 'org.apache.httpcomponents'
     //}
 }
+
+apply plugin: 'com.google.gms.google-services'

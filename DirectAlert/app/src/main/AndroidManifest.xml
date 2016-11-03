@@ -9,14 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <permission
-        android:name="com.javapapers.android.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="directalert.com.directalert.android.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
@@ -30,26 +22,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name="com.google.android.gms.gcm.GcmReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND" >
+        <service
+            android:name="directalert.com.directalert.BLL.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="directalert.com.directalert" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="directalert.com.directalert.BLL.MyGcmListenerService" android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-        <service android:name="directalert.com.directalert.BLL.MyInstanceIDListenerService" android:exported="false">
+        <service
+            android:name="directalert.com.directalert.BLL.MyInstanceIDListenerService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
-
-        <service android:name="directalert.com.directalert.BLL.RegistrationIntentService" android:exported="false">
         </service>
 
         <activity android:name=".Home">
@@ -66,6 +50,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDGaxBknCO-sWi2yCEqUGSss6NTQ8TCP6Q" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_collapse_00000" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
 
         <activity android:name=".ListEventUserActivity" />
         <activity android:name=".PushNotification"></activity>

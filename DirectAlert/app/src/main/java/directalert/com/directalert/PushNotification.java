@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import directalert.com.directalert.BLL.MyInstanceIDListenerService;
 import directalert.com.directalert.BLL.QuickstartPreferences;
-import directalert.com.directalert.BLL.RegistrationIntentService;
 
 public class PushNotification extends AppCompatActivity {
 
@@ -54,7 +54,7 @@ public class PushNotification extends AppCompatActivity {
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
+            Intent intent = new Intent(this, MyInstanceIDListenerService.class);
             startService(intent);
         }
     }

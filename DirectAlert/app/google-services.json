@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "63715726985",
-    "project_id": "direct-alert"
+    "firebase_url": "https://direct-alert.firebaseio.com",
+    "project_id": "direct-alert",
+    "storage_bucket": "direct-alert.appspot.com"
   },
   "client": [
     {
@@ -19,19 +21,36 @@
             "package_name": "com.directalert",
             "certificate_hash": "0BC4D89DF14310C4BF3F2880DC57A73459503E36"
           }
+        },
+        {
+          "client_id": "63715726985-i51iq3nus0l1fkaqtnmpddo0gvt0pgg9.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "63715726985-25m152s8bgps2uf8al3soed950ca298o.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9qinBvsrnZ7LBP23AKi1GWhTWsxb2Aw4"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63715726985-i51iq3nus0l1fkaqtnmpddo0gvt0pgg9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
