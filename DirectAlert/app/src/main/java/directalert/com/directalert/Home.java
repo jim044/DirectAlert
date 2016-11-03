@@ -373,8 +373,12 @@ public class Home extends AppCompatActivity {
 
                 //output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
-                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
+
+                //Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+                //myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
+                //startActivity(myIntent);
+
+                Intent myIntent = new Intent(Home.this, PushNotification.class);
                 startActivity(myIntent);
             }
         }
