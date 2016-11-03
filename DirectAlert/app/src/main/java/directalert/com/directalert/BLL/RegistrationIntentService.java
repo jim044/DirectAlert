@@ -1,11 +1,13 @@
 package directalert.com.directalert.BLL;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -16,6 +18,12 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import directalert.com.directalert.R;
 
@@ -40,6 +48,7 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().clear().commit();
 
         try {
             // In the (unlikely) event that multiple refresh operations occur simultaneously,
@@ -80,21 +89,47 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token Le token
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(String token) throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
-        RequestBody requestBody = new FormEncodingBuilder()
-                .add(KEY_TOKEN, token)
-                .build();
+        //RequestBody requestBody = new FormEncodingBuilder()
+        //        .add(KEY_TOKEN, token)
+        //        .build();
 
-        Request request = new Request.Builder()
-                .url(REGISTER_URL)
-                .post(requestBody)
-                .build();
+        //Request request = new Request.Builder()
+        //        .url(REGISTER_URL)
+        //        .post(requestBody)
+        //        .build();
+
 
         try {
-            Response response = client.newCall(request).execute();
+            URL myurl=new URL(REGISTER_URL);
+            Map<String,Object> params = new LinkedHashMap<>();
+            params.put("gcm_token", token);
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String,Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            HttpURLConnection conn = (HttpURLConnection)myurl.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+
+            //Response response = client.newCall(request).execute();
+            //Context context = getApplicationContext();
+            //int duration = Toast.LENGTH_LONG;
+
+            //Toast toast = Toast.makeText(context, response.message(), duration);
+            //toast.show();
 
         } catch (IOException e) {
             e.printStackTrace();
