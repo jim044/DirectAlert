@@ -22,17 +22,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service
-            android:name="directalert.com.directalert.BLL.MyFirebaseMessagingService">
+        <service android:name="directalert.com.directalert.BLL.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-        <service
-            android:name="directalert.com.directalert.BLL.MyInstanceIDListenerService">
+        <service android:name="directalert.com.directalert.BLL.FirebaseIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
@@ -50,14 +48,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDGaxBknCO-sWi2yCEqUGSss6NTQ8TCP6Q" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_collapse_00000" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
 
         <activity android:name=".ListEventUserActivity" />
         <activity android:name=".PushNotification"></activity>

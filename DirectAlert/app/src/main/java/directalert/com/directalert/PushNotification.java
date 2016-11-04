@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import directalert.com.directalert.BLL.MyInstanceIDListenerService;
+import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BLL.QuickstartPreferences;
 
 public class PushNotification extends AppCompatActivity {
@@ -54,7 +54,7 @@ public class PushNotification extends AppCompatActivity {
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, MyInstanceIDListenerService.class);
+            Intent intent = new Intent(this, FirebaseIDService.class);
             startService(intent);
         }
     }
