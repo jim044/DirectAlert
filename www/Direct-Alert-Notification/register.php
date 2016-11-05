@@ -1,15 +1,19 @@
 <?php
 
  
-if (isset($_POST["gcm_token"])) {
+if (isset($_POST["gcm_token"]) && isset($_POST["users"]) && && isset($_POST["event"])) {
 
     $gcm_token = $_POST["gcm_token"];
+    $users = $_POST["users"];
+    $event = $_POST["event"];
     // Store user details in db
     include_once "db_functions.php";
  
     $db = new DB_Functions();
  
-    $res = $db->addUser($gcm_token);
+    $res = $db->addUser($users);
+    $res = $db->addEvent($event);
+    $res = $db->addToken($gcm_token);
  
     if ($res)
     {
