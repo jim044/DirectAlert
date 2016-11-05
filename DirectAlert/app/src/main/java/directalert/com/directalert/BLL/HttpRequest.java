@@ -22,7 +22,7 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
 
     private static final String KEY_TOKEN = "gcm_token";
     private static final String KEY_USERS = "users";
-    private static final String KEY_CALENDAR = "calendar";
+    private static final String KEY_EVENT = "event";
 
 
     OkHttpClient client = new OkHttpClient();
@@ -35,7 +35,7 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
 //        RequestBody requestBody = new FormEncodingBuilder()
 //                .add(KEY_TOKEN, params[0])
 //                .add(KEY_USERS, params[0])
-//                .add(KEY_CALENDAR, params[0])
+//                .add(KEY_EVENT, params[0])
 //                .build();
 //
 //        Request request = new Request.Builder()

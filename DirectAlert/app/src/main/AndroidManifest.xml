@@ -50,7 +50,6 @@
             android:value="AIzaSyDGaxBknCO-sWi2yCEqUGSss6NTQ8TCP6Q" />
 
         <activity android:name=".BLL.ListEventUserActivity" />
-        <activity android:name=".PushNotification"></activity>
     </application>
 
 </manifest>

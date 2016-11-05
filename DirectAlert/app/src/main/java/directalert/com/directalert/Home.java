@@ -83,8 +83,6 @@ public class Home extends AppCompatActivity {
 //                FirebaseIDService unFire = new FirebaseIDService();
 //
 //                unFire.onTokenRefresh();
-                //Intent myIntent = new Intent(Home.this, PushNotification.class);
-                //startActivity(myIntent);
 
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
@@ -387,8 +385,6 @@ public class Home extends AppCompatActivity {
 
                 call_firebase(listEventUser);
 
-                //Intent myIntent = new Intent(Home.this, PushNotification.class);
-                //startActivity(myIntent);
             }
         }
 
