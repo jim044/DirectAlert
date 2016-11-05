@@ -1,4 +1,5 @@
 <?php
+
 class DB_Functions {
  
     private $db;
@@ -6,7 +7,7 @@ class DB_Functions {
     private $mysqli;
  
     function __construct() {
-        include_once 'db_connect.php';
+        include_once "db_connect.php";
         // connecting to database
         $this->db = new DB_Connect();
         $this->mysqli = $this->db->connect();
@@ -17,7 +18,7 @@ class DB_Functions {
      */
     public function addUser($gcm_token) {
         // insert user into database
-        $result = $this->mysqli->query("INSERT INTO gcm_ids (gcm_token, date_creation) VALUES('$gcm_token', NOW())");
+        $result = $this->mysqli->query("INSERT INTO token (id_token, date_creation) VALUES('$gcm_token', NOW())");
  
         if ($result)
         {

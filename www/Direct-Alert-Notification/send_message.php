@@ -7,7 +7,6 @@ if (isset($_POST["title"]) && isset($_POST["message"])) {
  
     include_once 'GCMPushMessage.php';
     include_once 'db_functions.php';
-    include_once 'config.php';
  
     $gcm = new GCMPushMessage(GOOGLE_API_KEY);
     $db = new DB_Functions();

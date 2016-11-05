@@ -1,12 +1,11 @@
-package directalert.com.directalert.BO;
+package directalert.com.directalert.BLL;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.api.client.util.DateTime;
-
 import java.util.ArrayList;
-import java.util.Date;
+
+import directalert.com.directalert.BO.EventUser;
 
 /**
  * Created by user on 21/10/2016.

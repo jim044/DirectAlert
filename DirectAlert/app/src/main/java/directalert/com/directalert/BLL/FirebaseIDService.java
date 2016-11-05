@@ -1,18 +1,13 @@
 package directalert.com.directalert.BLL;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
+import java.util.List;
+
+import directalert.com.directalert.BO.EventUser;
 
 /**
  * Created by user on 04/11/2016.
@@ -22,8 +17,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "FirebaseIDService";
 
-    @Override
-    public void onTokenRefresh() {
+    public void onTokenRefresh(List<EventUser> listCalendar) {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);

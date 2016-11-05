@@ -1,16 +1,14 @@
-package directalert.com.directalert;
+package directalert.com.directalert.BLL;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import directalert.com.directalert.BLL.ListEventUserAdapter;
-import directalert.com.directalert.BO.ListEventUser;
+import directalert.com.directalert.R;
 
 public class ListEventUserActivity extends AppCompatActivity {
 

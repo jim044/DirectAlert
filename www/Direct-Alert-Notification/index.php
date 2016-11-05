@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -36,6 +37,7 @@
 	    <input type="button" value="valider" onclick="codeAddress();">
     </div>
     <div id="map"></div>
+
     <script>
     var map;
     var directionsDisplay;
@@ -43,33 +45,33 @@
 
 function tracerTrajet(address1, address2)
 {
-      map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
-      center: {lat: address1.geometry.location.lat(), lng: address1.geometry.location.lng()}
-    });
-    directionsDisplay.setMap(map);
+      //map = new google.maps.Map(document.getElementById('map'), {
+      //zoom: 14,
+      //center: {lat: address1.geometry.location.lat(), lng: address1.geometry.location.lng()}
+    //});
+    //directionsDisplay.setMap(map);
     //map.setCenter(adresse);
     addressFirst = true
 
-     calculateAndDisplayRoute(map, address2, "DRIVING");
-     document.getElementById('mode').addEventListener('change', function() {
-       calculateAndDisplayRoute(map, address);
-     });
+     calculateAndDisplayRoute(address1, address2, "DRIVING");
+     //document.getElementById('mode').addEventListener('change', function() {
+     //  calculateAndDisplayRoute(map, address);
+     //});
 
-     calculateAndDisplayRoute(map, address2, "WALKING");
-     document.getElementById('mode').addEventListener('change', function() {
-       calculateAndDisplayRoute(map, address);
-     });
+     calculateAndDisplayRoute(address1, address2, "WALKING");
+     //document.getElementById('mode').addEventListener('change', function() {
+     //  calculateAndDisplayRoute(map, address);
+     //});
 
-     calculateAndDisplayRoute(map, address2, "BICYCLING");
-     document.getElementById('mode').addEventListener('change', function() {
-       calculateAndDisplayRoute(map, address);
-     });
+     calculateAndDisplayRoute(address1, address2, "BICYCLING");
+     //document.getElementById('mode').addEventListener('change', function() {
+     // calculateAndDisplayRoute(map, address);
+     //});
 
-     calculateAndDisplayRoute(map, address2, "TRANSIT");
-     document.getElementById('mode').addEventListener('change', function() {
-       calculateAndDisplayRoute(map, address);
-     });
+     calculateAndDisplayRoute(address1, address2, "TRANSIT");
+     //document.getElementById('mode').addEventListener('change', function() {
+     //  calculateAndDisplayRoute(map, address);
+     //});
 
   
 
@@ -86,22 +88,33 @@ function initMap() {
 
 }
 
-function calculateAndDisplayRoute(map, address, mode) {
+function calculateAndDisplayRoute(address1, address2, mode) {
   directionsService.route({
-    origin: {lat: map.center.lat(), lng: map.center.lng()},  // Haight.
-    destination: {lat: address.geometry.location.lat(), lng: address.geometry.location.lng()},  // Ocean Beach.
+    origin: {lat: address1.geometry.location.lat(), lng: address1.geometry.location.lng()},  // Haight.
+    destination: {lat: address2.geometry.location.lat(), lng: address2.geometry.location.lng()},  // Ocean Beach.
     // Note that Javascript allows us to access the constant
     // using square brackets and a string value as its
     // "property."
     travelMode: google.maps.TravelMode[mode]
   }, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
+      //directionsDisplay.setDirections(response);
       var duration = response.routes[0].legs[0].duration.value / 3600;
       var durationBis = duration.toString();
       durationBis = durationBis.split('.');
       durationBis[1] = (parseInt(durationBis[1])*60).toString();
       durationBis[1] = durationBis[1].slice(0,2);
+
+ 
+      $.ajax({
+        url: 'notifier.php',
+        data: 'mode='+ mode,
+        success: function(reponse) {
+          //alert(reponse); // reponse contient l'affichage du fichier PHP (soit echo)
+        }
+      });
+
+
       console.log(mode);
       console.log(durationBis[0] + " h " + (durationBis[1] + " min"));
     } else {
@@ -140,7 +153,7 @@ function calculateAndDisplayRoute(map, address, mode) {
   }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsofSW8ZNSLLkac7tkoeiGCC3n_F3_xRM&signed_in=true&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJtETD3Dk2jfmNrWcCw0evJRvaRxUihK8&signed_in=true&callback=initMap"
         async defer></script>
   </body>
 </html>

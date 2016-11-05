@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,8 +43,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
-import directalert.com.directalert.BO.*;
+import directalert.com.directalert.BLL.ListEventUser;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -80,38 +80,38 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FirebaseIDService unFire = new FirebaseIDService();
-
-                unFire.onTokenRefresh();
+//                FirebaseIDService unFire = new FirebaseIDService();
+//
+//                unFire.onTokenRefresh();
                 //Intent myIntent = new Intent(Home.this, PushNotification.class);
                 //startActivity(myIntent);
 
-//                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                        .requestEmail()
-//                        .build();
-//
-//                mGoogleApiClient = new GoogleApiClient.Builder(Home.this)
-//                        .enableAutoManage(Home.this /* FragmentActivity */,
-//                                new GoogleApiClient.OnConnectionFailedListener() {
-//                                    @Override
-//                                    public void onConnectionFailed(ConnectionResult connectionResult) {
-//
-//                                    }
-//                                })
-//                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                        .build();
-//
-//                signIn();
-//
-//
-//
-//                // Initialize credentials and service object.
-//                mCredential = GoogleAccountCredential.usingOAuth2(
-//                        getApplicationContext(), Arrays.asList(SCOPES))
-//                        .setBackOff(new ExponentialBackOff());
-//
-//
-//                getResultsFromApi();
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
+
+                mGoogleApiClient = new GoogleApiClient.Builder(Home.this)
+                        .enableAutoManage(Home.this /* FragmentActivity */,
+                                new GoogleApiClient.OnConnectionFailedListener() {
+                                    @Override
+                                    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+                                    }
+                                })
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
+
+                signIn();
+
+
+
+                // Initialize credentials and service object.
+                mCredential = GoogleAccountCredential.usingOAuth2(
+                        getApplicationContext(), Arrays.asList(SCOPES))
+                        .setBackOff(new ExponentialBackOff());
+
+
+                getResultsFromApi();
 
             }
         });
@@ -384,9 +384,18 @@ public class Home extends AppCompatActivity {
                 //myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
                 //startActivity(myIntent);
 
-                Intent myIntent = new Intent(Home.this, PushNotification.class);
-                startActivity(myIntent);
+
+                call_firebase(listEventUser);
+
+                //Intent myIntent = new Intent(Home.this, PushNotification.class);
+                //startActivity(myIntent);
             }
+        }
+
+        public void call_firebase(List<EventUser> listcalendar)
+        {
+            FirebaseIDService unFire = new FirebaseIDService();
+            unFire.onTokenRefresh(listcalendar);
         }
 
         @Override

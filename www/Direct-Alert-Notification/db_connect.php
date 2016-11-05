@@ -3,10 +3,9 @@
 class DB_Connect {
  
 	 public function connect() {
-	 require_once 'config.php';
 	 // Connexion à MySQL
 	 
-	 $con = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+	 $con = mysqli_connect('localhost', 'id137467_jim044', 'OBIWAN2715', 'id137467_directalert');
 	 
 	 return $con;
 	 }
@@ -16,4 +15,5 @@ class DB_Connect {
 	 }
  
 }
+
 ?>
