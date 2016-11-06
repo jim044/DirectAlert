@@ -46,14 +46,16 @@ import java.util.List;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BLL.ListEventUser;
+import directalert.com.directalert.BO.User;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mCallApiButton;
+    private String accountName;
     ProgressDialog mProgress;
 
     GoogleApiClient mGoogleApiClient;
@@ -132,7 +134,7 @@ public class Home extends AppCompatActivity {
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
+                accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
@@ -356,6 +358,7 @@ public class Home extends AppCompatActivity {
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
+                User user = new User(accountName);
                 listEventUser.add(new EventUser(event.getId(), event.getSummary(), event.getDescription(), event.getLocation()));
             }
             return listEventUser;

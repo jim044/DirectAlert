@@ -60,6 +60,14 @@ public class EventUser implements Parcelable {
         this.location = location;
     }
 
+    public EventUser(String id, String summary, String description, String location, User user) {
+        this.id = id;
+        this.summary = summary;
+        this.description = description;
+        this.location = location;
+        this.user = user;
+    }
+
     public String getId() {
         return id;
     }

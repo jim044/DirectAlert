@@ -3,6 +3,7 @@ package directalert.com.directalert.BLL;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -30,12 +31,16 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
     @Override
     protected Response doInBackground(Object... params) {
 
-        Log.d("test", params.getClass().getName());
+
         Response response = null;
+
+        Gson gson = new Gson();
+        String json = gson.toJson(params[0]);
+
+        String json2 = gson.toJson(params[1]);
 //        RequestBody requestBody = new FormEncodingBuilder()
 //                .add(KEY_TOKEN, params[0])
-//                .add(KEY_USERS, params[0])
-//                .add(KEY_EVENT, params[0])
+//                .add(KEY_USERS, params[1])
 //                .build();
 //
 //        Request request = new Request.Builder()

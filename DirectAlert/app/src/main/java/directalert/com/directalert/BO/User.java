@@ -13,13 +13,18 @@ public class User {
     private String mail;
     private Date date_ajout;
 
-    public User(String id) {
-        this.id = id;
+    public User(String mail) {
+        this.mail = mail;
     }
 
     public User(String id, int nbConnexion) {
         this.id = id;
         this.nbConnexion = nbConnexion;
+    }
+
+    public User(String id, String mail) {
+        this.id = id;
+        this.mail = mail;
     }
 
     public User(String id, int nbConnexion, String mail, Date date_ajout) {
@@ -28,6 +33,8 @@ public class User {
         this.mail = mail;
         this.date_ajout = date_ajout;
     }
+
+
 
     public String getId() {
         return id;

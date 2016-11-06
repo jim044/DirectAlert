@@ -27,6 +27,7 @@ android {
         }
 
     }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE-FIREBASE.txt'
@@ -37,6 +38,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.firebase:firebase-core:9.8.0'                        // this line must be included to integrate with Firebase
     compile 'com.google.firebase:firebase-messaging:9.8.0'                   // this line must be included to use FCM
     compile 'com.squareup.okhttp:okhttp:2.4.0'
@@ -59,6 +61,8 @@ dependencies {
     compile('com.google.apis:google-api-services-calendar:v3-rev216-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
+    //compile 'com.google.code.gson:gson:2.8.0'
     testCompile 'junit:junit:4.12'
 
 }
