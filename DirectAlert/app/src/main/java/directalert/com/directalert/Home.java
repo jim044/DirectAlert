@@ -310,7 +310,7 @@ public class Home extends AppCompatActivity {
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("DirectAlert")
+                    .setApplicationName("Direct Alert")
                     .build();
         }
 
