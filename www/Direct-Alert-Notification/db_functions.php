@@ -17,8 +17,10 @@ class DB_Functions {
      * On ajoute un nouvel utilisateur
      */
     public function addUser($users) {
+
+        $mail = $users->{'mail'};
         // insert user into database
-        $result = $this->mysqli->query("INSERT INTO users (id, email, date_ajout) VALUES('$gcm_token', NOW())");  // A finir
+        $result = $this->mysqli->query("INSERT INTO users (mail, date_ajout) VALUES('$mail', NOW())");  // A finir
  
         if ($result)
         {
@@ -31,8 +33,12 @@ class DB_Functions {
     }
 
     public function addEvent($event) {
-        // insert user into database
-        $result = $this->mysqli->query("INSERT INTO event_user (id, libelle, date_event, place, id_user) VALUES('$gcm_token', NOW())"); // A finir
+
+        $unLibelle = $event->{'summary'};
+        $start = date("Y-m-d h:m:s", ($event->{'start'}->{'value'} / 1000) );
+
+        //$result = $this->mysqli->query("INSERT INTO event_user (libelle, date_event) VALUES('$libelle', '$start'"); // A finir
+        $result = $this->mysqli->query("INSERT INTO event_user (libelle, date_event) VALUES('$unLibelle', '$start')"); // A finir
  
         if ($result)
         {
@@ -45,8 +51,10 @@ class DB_Functions {
     }
 
     public function addToken($gcm_token) {
+
+        $id_token = $gcm_token->{'id_token'};
         // insert user into database
-        $result = $this->mysqli->query("INSERT INTO token (id_token, date_creation, id_user) VALUES('$gcm_token', NOW())");  // A finir
+        $result = $this->mysqli->query("INSERT INTO token (id_token, date_creation) VALUES('$id_token', NOW())");  // A finir
  
         if ($result)
         {

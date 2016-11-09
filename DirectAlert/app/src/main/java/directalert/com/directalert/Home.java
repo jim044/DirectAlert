@@ -359,7 +359,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 User user = new User(accountName);
-                listEventUser.add(new EventUser(event.getId(), event.getSummary(), event.getDescription(), event.getLocation(), user));
+                listEventUser.add(new EventUser(event.getId(), event.getUpdated(), event.getSummary(), event.getDescription(), event.getLocation(), user));
             }
             return listEventUser;
         }

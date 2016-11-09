@@ -26,7 +26,7 @@ public class EventUser implements Parcelable {
     private int sequence;
     private DateTime start;
     private String status;
-    private Date updated; //Utile
+    private DateTime updated; //Utile
     private String summary; //Utile
     private String description; //Utile
     private String location; //Utile
@@ -44,6 +44,16 @@ public class EventUser implements Parcelable {
         this.location = location;
         this.user = user;
     }
+
+//    public EventUser(String id, DateTime start, String summary, String description, String location, DateTime updated, User user) {
+//        this.id = id;
+//        this.start = start;
+//        this.summary = summary;
+//        this.description = description;
+//        this.location = location;
+//        this.updated = updated;
+//        this.user = user;
+//    }
 
     public EventUser(String id, DateTime start, String summary, String description, String location) {
         this.id = id;
@@ -172,11 +182,11 @@ public class EventUser implements Parcelable {
         this.status = status;
     }
 
-    public Date getUpdated() {
+    public DateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(DateTime updated) {
         this.updated = updated;
     }
 

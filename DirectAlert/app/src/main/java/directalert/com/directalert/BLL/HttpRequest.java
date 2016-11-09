@@ -33,8 +33,6 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
 
     @Override
     protected Response doInBackground(Object... params) {
-
-
         Response response = null;
 
         Gson gson = new Gson();
@@ -43,9 +41,12 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
         String jsonUser = gson.toJson(params[2]);
         RequestBody requestBody = new FormEncodingBuilder()
                 .add(KEY_TOKEN, jsonToken)
-                .add(KEY_EVENT, jsonListCalendar)
                 .add(KEY_USER, jsonUser)
+                .add(KEY_EVENT, jsonListCalendar)
                 .build();
+
+        //
+        //
 
         Request request = new Request.Builder()
                 .url(REGISTER_URL)
