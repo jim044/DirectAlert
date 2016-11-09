@@ -43,5 +43,4 @@ public class ListEventUserActivity extends AppCompatActivity {
         listEvent.setAdapter(adapter);
     }
 
-
 }

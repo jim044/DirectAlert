@@ -182,7 +182,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             case REQUEST_ACCOUNT_PICKER:
                 if (resultCode == RESULT_OK && data != null &&
                         data.getExtras() != null) {
-                    String accountName =
+                    accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences settings =
@@ -359,7 +359,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 User user = new User(accountName);
-                listEventUser.add(new EventUser(event.getId(), event.getSummary(), event.getDescription(), event.getLocation()));
+                listEventUser.add(new EventUser(event.getId(), event.getSummary(), event.getDescription(), event.getLocation(), user));
             }
             return listEventUser;
         }

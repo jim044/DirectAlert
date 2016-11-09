@@ -10,6 +10,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 /**
@@ -22,7 +25,7 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
     private static final String REGISTER_URL = "http://jim044.000webhostapp.com/register.php";
 
     private static final String KEY_TOKEN = "gcm_token";
-    private static final String KEY_USERS = "users";
+    private static final String KEY_USER = "user";
     private static final String KEY_EVENT = "event";
 
 
@@ -35,25 +38,36 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
         Response response = null;
 
         Gson gson = new Gson();
-        String json = gson.toJson(params[0]);
+        String jsonListCalendar = gson.toJson(params[0]);
+        String jsonToken = gson.toJson(params[1]);
+        String jsonUser = gson.toJson(params[2]);
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add(KEY_TOKEN, jsonToken)
+                .add(KEY_EVENT, jsonListCalendar)
+                .add(KEY_USER, jsonUser)
+                .build();
 
-        String json2 = gson.toJson(params[1]);
-//        RequestBody requestBody = new FormEncodingBuilder()
-//                .add(KEY_TOKEN, params[0])
-//                .add(KEY_USERS, params[1])
-//                .build();
-//
-//        Request request = new Request.Builder()
-//                .url(REGISTER_URL)
-//                .post(requestBody)
-//                .build();
-//
-//        try {
-//            response = client.newCall(request).execute();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        Request request = new Request.Builder()
+                .url(REGISTER_URL)
+                .post(requestBody)
+                .build();
+
+        try {
+            response = client.newCall(request).execute();
+
+            String jsonData = response.body().string();
+
+            // Transform reponse to JSon Object
+            JSONObject jsontest = new JSONObject(jsonData);
+
+            // Use the JSon Object
+            Log.d("json", jsontest.getString("message"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return response;
     }
