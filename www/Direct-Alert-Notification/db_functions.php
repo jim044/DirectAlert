@@ -20,7 +20,7 @@ class DB_Functions {
 
         $mail = $users->{'mail'};
         // insert user into database
-        $result = $this->mysqli->query("INSERT INTO users (mail, date_ajout) VALUES('$mail', NOW())");  // A finir
+        $result = $this->mysqli->query("INSERT INTO users (id_user_mail, date_ajout) VALUES('$mail', NOW())");  // A finir
  
         if ($result)
         {
@@ -32,30 +32,18 @@ class DB_Functions {
         }
     }
 
-    public function addEvent($event) {
+    public function addEvent($event, $users) {
 
+        $mail = $users->{'mail'};
     	$idEvent = $event->{'id'};
         $unLibelle = $event->{'summary'};
         $longtest = (int)$event->{'start'}->{'value'};
         $seconds = $longtest / 1000;
         $start_event = date("Y-m-d H:i:s", $seconds);
-
         $location = $event->{'location'};
 
-        //$start = new DateTime($event->{'start'}->{'value'});
 
-  //       $start_event = new DateTime("@$start");
-		// $start_event->format('U = Y-m-d H:i:s');
-
-
-		// date_timestamp_set($date, 1171502725);
-		// echo date_format($date, 'U = Y-m-d H:i:s') . "\n";
-		
-
-		//$start = date("Y-m-d H:i:s", substr($event->{'start'}->{'value'}, 0, 10));
-
-
-        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, location, date_event) VALUES('$idEvent', '$unLibelle', '$location', '$start_event')");
+        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, location, date_event, id_user_mail) VALUES('$idEvent', '$unLibelle', '$location', '$start_event', '$mail')");
  
         if ($result)
         {
@@ -67,11 +55,12 @@ class DB_Functions {
         }
     }
 
-    public function addToken($gcm_token) {
+    public function addToken($gcm_token, $users) {
 
+        $mail = $users->{'mail'};
         $id_token = $gcm_token->{'id_token'};
         // insert user into database
-        $result = $this->mysqli->query("INSERT INTO token (id_token, date_creation) VALUES('$id_token', NOW())");  // A finir
+        $result = $this->mysqli->query("INSERT INTO token (id_token, date_creation, id_user_mail) VALUES('$id_token', NOW(), '$mail')");  // A finir
  
         if ($result)
         {

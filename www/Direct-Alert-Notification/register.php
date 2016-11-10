@@ -14,10 +14,10 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
     $db = new DB_Functions();
  
     $res = $db->addUser($users);
-    $res = $db->addToken($gcm_token);
+    $res = $db->addToken($gcm_token, $users);
     
     foreach ($event as $key=>$event_user){
-        $res = $db->addEvent($event_user);
+        $res = $db->addEvent($event_user, $users);
     }
 
     if ($res)
