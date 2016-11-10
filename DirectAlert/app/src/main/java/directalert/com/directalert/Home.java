@@ -345,7 +345,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             Events events;
             try {
                 events = mService.events().list("primary")
-                            .setMaxResults(10)
+                            .setMaxResults(50)
                             .setTimeMin(now)
                             .setOrderBy("startTime")
                             .setSingleEvents(true)

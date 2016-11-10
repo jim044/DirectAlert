@@ -34,11 +34,22 @@ class DB_Functions {
 
     public function addEvent($event) {
 
+    	$idEvent = $event->{'id'};
         $unLibelle = $event->{'summary'};
-        $start = date("Y-m-d h:m:s", ($event->{'start'}->{'value'} / 1000) );
+        $start = new DateTime($event->{'start'}->{'value'});
 
-        //$result = $this->mysqli->query("INSERT INTO event_user (libelle, date_event) VALUES('$libelle', '$start'"); // A finir
-        $result = $this->mysqli->query("INSERT INTO event_user (libelle, date_event) VALUES('$unLibelle', '$start')"); // A finir
+  //       $start_event = new DateTime("@$start");
+		// $start_event->format('U = Y-m-d H:i:s');
+
+
+		// date_timestamp_set($date, 1171502725);
+		// echo date_format($date, 'U = Y-m-d H:i:s') . "\n";
+		
+
+		//$start = date("Y-m-d H:i:s", substr($event->{'start'}->{'value'}, 0, 10));
+
+
+        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, date_event) VALUES('$idEvent', '$unLibelle', '$start')");
  
         if ($result)
         {
