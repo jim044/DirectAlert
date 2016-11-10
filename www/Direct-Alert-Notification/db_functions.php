@@ -75,8 +75,8 @@ class DB_Functions {
     /**
      * Pour obtenir tous les utilisateurs
      */
-    public function getDevices() {
-        $result = $this->mysqli->query("select gcm_token FROM gcm_ids");
+    public function getToken() {
+        $result = $this->mysqli->query("select id_token FROM token");
         return $result;
     }
  

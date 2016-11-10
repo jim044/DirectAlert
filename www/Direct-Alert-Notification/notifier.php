@@ -1,13 +1,19 @@
 <?php
 
+include_once "db_functions.php";
+$db = new DB_Functions();
+$res = $db->getToken();
 
+while ($row = $res->fetch_assoc()) {
+        echo $row["id_token"];
+        send_notification($row["id_token"]);
+    }
 
+//
 
-
-    $path_to_firebase_cm = 'https://fcm.googleapis.com/fcm/send';
-
-    
-    $registrationIds = array('fMXcCQyqgYU:APA91bE5xeKdAnYy02lpwN0pJGMPBbtgRIHZFneHx1S5AlrYxX4OKRHNfA8soLv1Izhm2aJC-OyvDQ6fmmWcDn47MJEvlJSG5d9LCV53vCtPz3W66HpzE7yw5g_x9oHPPtrRjzS2exl0');
+function send_notification($token)
+{
+    $registrationIds = array($token);
 
     $msg = array
     (
@@ -20,62 +26,33 @@
         'largeIcon' => 'large_icon',
         'smallIcon' => 'small_icon'
     );
+
     $fields = array
     (
         'registration_ids'  => $registrationIds,
-        'data'          => $msg
+
+        'notification' => array('title' => 'test', 'body' => 'test'),
+
+        'data' => array('message' => 'Message')
     );
-
-
-    //     'to' => 'fMXcCQyqgYU:APA91bE5xeKdAnYy02lpwN0pJGMPBbtgRIHZFneHx1S5AlrYxX4OKRHNfA8soLv1Izhm2aJC-OyvDQ6fmmWcDn47MJEvlJSG5d9LCV53vCtPz3W66HpzE7yw5g_x9oHPPtrRjzS2exl0',
-
-    //     'notification' => array('title' => 'test', 'body' => 'test'),
-
-    //     'data' => array('message' => 'Message')
-
-    // );
-
-
+     
     $headers = array
     (
-        'Authorization: key=AIzaSyCeJQxGiWef1Znuu2FiZgDrVT3kyMU7KAw',
+        'Authorization: key=AIzaSyCH8L2SWCU2v3Vz6qQ74plaLapx8_zqTZM',
         'Content-Type: application/json'
-    );   
-
+    );
+     
     $ch = curl_init();
-
-
-
-    curl_setopt($ch, CURLOPT_URL, $path_to_firebase_cm); 
-
-    curl_setopt($ch, CURLOPT_POST, true);
-
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-    curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 ); 
-
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-
-
-
-    $result = curl_exec($ch);
-
-   
-
-   echo $result;
-
-   
-
-   curl_close($ch);
-
-
-
-
-
+    curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+    curl_setopt( $ch,CURLOPT_POST, true );
+    curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+    curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+    curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+    curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+    $result = curl_exec($ch );
+    curl_close( $ch );
+    echo $result;
+}
 
 
 ?>
