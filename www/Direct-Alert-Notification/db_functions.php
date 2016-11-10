@@ -36,7 +36,13 @@ class DB_Functions {
 
     	$idEvent = $event->{'id'};
         $unLibelle = $event->{'summary'};
-        $start = new DateTime($event->{'start'}->{'value'});
+        $longtest = (int)$event->{'start'}->{'value'};
+        $seconds = $longtest / 1000;
+        $start_event = date("Y-m-d H:i:s", $seconds);
+
+        $location = $event->{'location'};
+
+        //$start = new DateTime($event->{'start'}->{'value'});
 
   //       $start_event = new DateTime("@$start");
 		// $start_event->format('U = Y-m-d H:i:s');
@@ -49,7 +55,7 @@ class DB_Functions {
 		//$start = date("Y-m-d H:i:s", substr($event->{'start'}->{'value'}, 0, 10));
 
 
-        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, date_event) VALUES('$idEvent', '$unLibelle', '$start')");
+        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, location, date_event) VALUES('$idEvent', '$unLibelle', '$location', '$start_event')");
  
         if ($result)
         {

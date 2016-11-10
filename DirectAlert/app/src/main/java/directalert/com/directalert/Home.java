@@ -41,6 +41,7 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import directalert.com.directalert.BO.EventUser;
@@ -358,8 +359,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
+                if(start == null) {
+                    start = event.getStart().getDate();
+                }
                 User user = new User(accountName);
-                listEventUser.add(new EventUser(event.getId(), event.getUpdated(), event.getSummary(), event.getDescription(), event.getLocation(), user));
+                listEventUser.add(new EventUser(event.getId(), start, event.getSummary(), event.getDescription(), event.getLocation(), user));
             }
             return listEventUser;
         }
