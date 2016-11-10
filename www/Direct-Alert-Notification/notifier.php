@@ -5,33 +5,30 @@ $db = new DB_Functions();
 $res = $db->getToken();
 
 while ($row = $res->fetch_assoc()) {
-        echo $row["id_token"];
-        send_notification($row["id_token"]);
+	//echo $row["id_token"];
+	$resBis = $db->getEvent($row["id_user_mail"]);
+	while ($rowBis = $resBis->fetch_assoc()) {
+        echo $rowBis["libelle"];
+
+        echo"<script  type='text/javascript'>   
+                codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX'); 
+            </script>";
+
+        send_notification($row["id_token"], $rowBis["libelle"]);
     }
+}
 
 //
 
-function send_notification($token)
+function send_notification($token, $libelle_event)
 {
     $registrationIds = array($token);
-
-    $msg = array
-    (
-        'message'   => 'here is a message. message',
-        'title'     => 'This is a title. title',
-        'subtitle'  => 'This is a subtitle. subtitle',
-        'tickerText'    => 'Ticker text here...Ticker text here...Ticker text here',
-        'vibrate'   => 1,
-        'sound'     => 1,
-        'largeIcon' => 'large_icon',
-        'smallIcon' => 'small_icon'
-    );
 
     $fields = array
     (
         'registration_ids'  => $registrationIds,
 
-        'notification' => array('title' => 'test', 'body' => 'test'),
+        'notification' => array('title' => 'test', 'body' =>  $libelle_event),
 
         'data' => array('message' => 'Message')
     );

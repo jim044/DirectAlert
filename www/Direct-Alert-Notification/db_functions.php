@@ -76,9 +76,16 @@ class DB_Functions {
      * Pour obtenir tous les utilisateurs
      */
     public function getToken() {
-        $result = $this->mysqli->query("select id_token FROM token");
+        $result = $this->mysqli->query("select id_token, id_user_mail FROM token");
         return $result;
     }
+
+
+    public function getEvent($user) {
+        $result = $this->mysqli->query("select libelle FROM event_user WHERE id_user_mail='$user'");
+        return $result;
+    }
+ 
  
 }
  
