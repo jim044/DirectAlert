@@ -39,7 +39,7 @@ class DB_Functions {
         $unLibelle = $event->{'summary'};
         $longtest = (int)$event->{'start'}->{'value'};
         $seconds = $longtest / 1000;
-        $start_event = date("Y-m-d H:i:s", $seconds);
+        $start_event = date("Y-m-d H:i:s", $seconds+3600);
         $location = $event->{'location'};
 
 
@@ -82,7 +82,7 @@ class DB_Functions {
 
 
     public function getEvent($user) {
-        $result = $this->mysqli->query("select libelle FROM event_user WHERE id_user_mail='$user'");
+        $result = $this->mysqli->query("select libelle, location, date_event FROM event_user WHERE id_user_mail='$user'");
         return $result;
     }
  
