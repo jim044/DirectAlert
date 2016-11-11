@@ -1,11 +1,12 @@
-document.write("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAJtETD3Dk2jfmNrWcCw0evJRvaRxUihK8&signed_in=true&callback=initMap' async defer></script>" );
-document.write("<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js'></script>" );
+
+document.write("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAJtETD3Dk2jfmNrWcCw0evJRvaRxUihK8&callback=initMap'></script>");
+document.write("<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>" );
     
     var map;
-
     var directionsDisplay;
-
     var directionsService;
+    var addr1;
+    var addr2;
 
 
 
@@ -25,18 +26,17 @@ function tracerTrajet(address1, address2)
 function initMap() {
 
   directionsDisplay = new google.maps.DirectionsRenderer;
-
   directionsService = new google.maps.DirectionsService;
 
-  map = new google.maps.Map(document.getElementById('map'), {
+  // map = new google.maps.Map({
 
-    zoom: 14,
+  //   zoom: 14,
 
-    center: {lat: 37.77, lng: -122.447}
+  //   center: {lat: 37.77, lng: -122.447}
 
-  });
+  // });
 
-  directionsDisplay.setMap(map);
+  // directionsDisplay.setMap(map);
 
 
 
@@ -72,17 +72,17 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
       console.log(durationBis[0] + " h " + (durationBis[1] + " min"));
 
-      $.ajax({
-       url : '../send_notif.php',
-       type : 'POST', // Le type de la requête HTTP, ici devenu POST
-       data : 'temps=' + durationBis[0] + " h " + (durationBis[1] + " min") + '&mode_transport=' + mode, // On fait passer nos variables, exactement comme en GET, au script more_com.php
-       dataType : 'html'
-    });
+    //   $.ajax({
+    //    url : '../send_notif.php',
+    //    type : 'POST', // Le type de la requête HTTP, ici devenu POST
+    //    data : 'temps=' + durationBis[0] + " h " + (durationBis[1] + " min") + '&mode_transport=' + mode, // On fait passer nos variables, exactement comme en GET, au script more_com.php
+    //    dataType : 'html'
+    // });
 
 
     } else {
 
-      window.alert('Directions request failed due to ' + status);
+      //window.alert('Directions request failed due to ' + status);
 
     }
 
@@ -123,13 +123,7 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
       }
 
-
-
     });
-
-
-
-   
 
   }
 
