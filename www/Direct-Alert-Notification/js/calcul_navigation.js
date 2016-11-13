@@ -7,6 +7,13 @@ document.write("<script type='text/javascript' src='https://ajax.googleapis.com/
     var directionsService;
     var addr1;
     var addr2;
+    var addressPhysique1;
+    var addressPhysique2;
+    var unToken;
+    var unLibelle_Event;
+    var uneDateEvent;
+    var message_temps;
+    var passage;
 
 
 
@@ -14,7 +21,8 @@ function tracerTrajet(address1, address2)
 
 {
 
-    addressFirst = true
+    addressFirst = true;
+
     calculateAndDisplayRoute(address1, address2, "DRIVING");
     calculateAndDisplayRoute(address1, address2, "WALKING");
     calculateAndDisplayRoute(address1, address2, "BICYCLING");
@@ -27,19 +35,6 @@ function initMap() {
 
   directionsDisplay = new google.maps.DirectionsRenderer;
   directionsService = new google.maps.DirectionsService;
-
-  // map = new google.maps.Map({
-
-  //   zoom: 14,
-
-  //   center: {lat: 37.77, lng: -122.447}
-
-  // });
-
-  // directionsDisplay.setMap(map);
-
-
-
 }
 
 
@@ -68,21 +63,45 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
       durationBis[1] = durationBis[1].slice(0,2);
 
-      console.log(mode);
+      uneDate = new Date(uneDateEvent);
+      uneDateReduite = uneDate.getHours();
+      uneDate.setHours(uneDateReduite - parseInt(durationBis[0]));
+      uneDateReduite = uneDate.getMinutes();
+      uneDate.setMinutes(uneDateReduite - parseInt(durationBis[1]));
 
-      console.log(durationBis[0] + " h " + (durationBis[1] + " min"));
+      var tmp = uneDate - new Date();
 
-    //   $.ajax({
-    //    url : '../send_notif.php',
-    //    type : 'POST', // Le type de la requête HTTP, ici devenu POST
-    //    data : 'temps=' + durationBis[0] + " h " + (durationBis[1] + " min") + '&mode_transport=' + mode, // On fait passer nos variables, exactement comme en GET, au script more_com.php
-    //    dataType : 'html'
-    // });
+      tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
+      secondes = tmp % 60;                    // Extraction du nombre de secondes
+   
+      tmp = Math.floor((tmp-secondes)/60);    // Nombre de minutes (partie entière)
+      minutes = tmp % 60;                    // Extraction du nombre de minutes
+   
+      tmp = Math.floor((tmp-minutes)/60);    // Nombre d'heures (entières)
+      hours = tmp % 24;                   // Extraction du nombre d'heures
+       
+      tmp = Math.floor((tmp-hours)/24);   // Nombre de jours restants
+      days = tmp;
 
+      if(message_temps == null)
+      {
+        message_temps = 'Il vous reste : ' + days + ' jours, ' + hours + ' heures et '+ minutes + ' minutes en ' + mode + '.\n';
+      }
+      else
+      {
+        message_temps = message_temps + 'Il vous reste : ' + days + ' jours, ' + hours + ' heures et '+ minutes + ' minutes en ' + mode + '.\n';
+      }
 
-    } else {
+      if(mode == 'TRANSIT')
+      {
+          $.ajax({
+           url : '../send_notif.php',
+           type : 'POST',
+           data : 'token=' + unToken + '&libelle_event=' + unLibelle_Event + '&message_temps='+ message_temps, // On fait passer nos variables, exactement comme en GET, au script more_com.php
+        });
+      }
+      
 
-      //window.alert('Directions request failed due to ' + status);
 
     }
 
@@ -93,39 +112,50 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
   /* Fonction de géocodage déclenchée en cliquant surle bouton "Geocoder"  */
 
-  function codeAddress(address1, address2) {
+  function codeAddress(address1, address2, token, libelle_event, date_event) {
 
-   geocoder = new google.maps.Geocoder();
+    message_temps = null;
+    uneDateEvent = date_event;
+    unToken = token;
+    unLibelle_Event = libelle_event;
+    addressPhysique1 = address1;
+    addressPhysique2 = address2;
 
-   geocoder.geocode( { 'address': address1}, function(results, status) {
-
-
-    if (status == google.maps.GeocoderStatus.OK) {
-
-      addr1 = results[0];
-
-      }
-
-
-
-    });
-
-
-   geocoder.geocode( { 'address': address2}, function(results, status) {
-
-    /* Si l'adresse a pu être géolocalisée */
-
-    if (status == google.maps.GeocoderStatus.OK) {
-
-      addr2 = results[0];
-
-      tracerTrajet(addr1, addr2);
-
-      }
-
-    });
+    geocoderTrajet(address1, address2);
 
   }
+
+function geocoderTrajet(uneAddressetrajet, uneAddressetrajetBis)
+{
+    geocoder = new google.maps.Geocoder();
+
+     geocoder.geocode( { 'address': uneAddressetrajet}, function(results, status) {
+
+
+      if (status == google.maps.GeocoderStatus.OK) {
+
+          addr1 = results[0];
+          geocoderTrajetBis(addr1, uneAddressetrajetBis);
+        }
+
+      });
+}
+
+function geocoderTrajetBis(uneAddresseEnplus, uneAddressetrajet)
+{
+    geocoder = new google.maps.Geocoder();
+
+     geocoder.geocode( { 'address': uneAddressetrajet}, function(results, status) {
+
+
+      if (status == google.maps.GeocoderStatus.OK) {
+
+          addr2 = results[0];
+          tracerTrajet(uneAddresseEnplus, addr2);
+        }
+
+      });
+}
 
 
     

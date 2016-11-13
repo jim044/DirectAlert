@@ -10,19 +10,37 @@ while ($row = $res->fetch_assoc()) {
 	//echo $row["id_token"];
 	$resBis = $db->getEvent($row["id_user_mail"]);
 	while ($rowBis = $resBis->fetch_assoc()) {
-        //echo $rowBis["libelle"];
+        //echo $rowBis["location"];
+        if(empty($rowBis["location"]) == false)
+        {
+            
+            echo $rowBis["libelle"];
+            echo $rowBis["date_event"];
+            echo $rowBis["location"];
+            // echo"<script  type='text/javascript'>   
+            //     codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX', 'PARIS'); 
+            // </script>";
 
-        echo"<script  type='text/javascript'>   
-                codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX', 'PARIS'); 
+            echo"<script  type='text/javascript'>   
+                codeAddress('".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."'); 
             </script>";
 
+            //break;
+
+        }
+        else
+        {
+            //echo "test";
+        }
+        
         //send_notification($row["id_token"], $rowBis["libelle"]);
     }
+    break;
 }
 
 //
 
-function send_notification($token, $libelle_event)
+function send_notification($token, $libelle_event, $temps)
 {
     $registrationIds = array($token);
 
