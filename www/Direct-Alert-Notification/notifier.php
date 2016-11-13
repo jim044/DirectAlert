@@ -13,16 +13,10 @@ while ($row = $res->fetch_assoc()) {
         //echo $rowBis["location"];
         if(empty($rowBis["location"]) == false)
         {
-<<<<<<< HEAD
             
             echo $rowBis["libelle"];
             echo $rowBis["date_event"];
             echo $rowBis["location"];
-=======
-            echo $rowBis["libelle"];
-            echo $rowBis["date_event"];
-            //echo $rowBis["libelle"];
->>>>>>> origin/master
             // echo"<script  type='text/javascript'>   
             //     codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX', 'PARIS'); 
             // </script>";
@@ -31,7 +25,7 @@ while ($row = $res->fetch_assoc()) {
                 codeAddress('".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."'); 
             </script>";
 
-            //break;
+            break;
 
         }
         else
@@ -76,6 +70,8 @@ function send_notification($token, $libelle_event, $temps)
     curl_close( $ch );
     echo $result;
 }
+
+
 
 
 ?>

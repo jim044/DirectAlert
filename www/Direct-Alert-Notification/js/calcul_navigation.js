@@ -5,31 +5,21 @@ document.write("<script type='text/javascript' src='https://ajax.googleapis.com/
     var map;
     var directionsDisplay;
     var directionsService;
-    var addr1;
-    var addr2;
-    var addressPhysique1;
-    var addressPhysique2;
-    var unToken;
-    var unLibelle_Event;
-    var uneDateEvent;
-    var message_temps;
-<<<<<<< HEAD
+    var message_temps = null;
     var passage;
-=======
->>>>>>> origin/master
 
 
 
-function tracerTrajet(address1, address2)
+function tracerTrajet(address1, address2, libelle_event, token, date_event)
 
 {
 
     addressFirst = true;
 
-    calculateAndDisplayRoute(address1, address2, "DRIVING");
-    calculateAndDisplayRoute(address1, address2, "WALKING");
-    calculateAndDisplayRoute(address1, address2, "BICYCLING");
-    calculateAndDisplayRoute(address1, address2, "TRANSIT");
+    calculateAndDisplayRoute(address1, address2, "DRIVING", libelle_event, token, date_event);
+    calculateAndDisplayRoute(address1, address2, "WALKING", libelle_event, token, date_event);
+    calculateAndDisplayRoute(address1, address2, "BICYCLING", libelle_event, token, date_event);
+    calculateAndDisplayRoute(address1, address2, "TRANSIT", libelle_event, token, date_event);
 }
 
 
@@ -42,7 +32,7 @@ function initMap() {
 
 
 
-function calculateAndDisplayRoute(address1, address2, mode) {
+function calculateAndDisplayRoute(address1, address2, mode, libelle_event, token, date_event) {
 
   directionsService.route({
 
@@ -66,8 +56,7 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
       durationBis[1] = durationBis[1].slice(0,2);
 
-<<<<<<< HEAD
-      uneDate = new Date(uneDateEvent);
+      uneDate = new Date(date_event);
       uneDateReduite = uneDate.getHours();
       uneDate.setHours(uneDateReduite - parseInt(durationBis[0]));
       uneDateReduite = uneDate.getMinutes();
@@ -75,20 +64,6 @@ function calculateAndDisplayRoute(address1, address2, mode) {
 
       var tmp = uneDate - new Date();
 
-=======
-      //console.log(unLibelle_Event);
-      uneDate = new Date(uneDateEvent);
-      //console.log(uneDate);
-      uneDateReduite = uneDate.getHours();
-      uneDate.setHours(uneDateReduite - parseInt(durationBis[0]));
-      //console.log(uneDate);
-      uneDateReduite = uneDate.getMinutes();
-      uneDate.setMinutes(uneDateReduite - parseInt(durationBis[1]));
-      //console.log(uneDate);
-
-      var tmp = uneDate - new Date();
-   
->>>>>>> origin/master
       tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
       secondes = tmp % 60;                    // Extraction du nombre de secondes
    
@@ -109,35 +84,27 @@ function calculateAndDisplayRoute(address1, address2, mode) {
       {
         message_temps = message_temps + 'Il vous reste : ' + days + ' jours, ' + hours + ' heures et '+ minutes + ' minutes en ' + mode + '.\n';
       }
-<<<<<<< HEAD
-=======
-
-      console.log('Il vous reste : ' + days + ' jours, ' + hours + ' heures et '+ minutes + ' minutes en ' + mode + ' pour ' + addressPhysique1);
-
-
-      if(mode == 'TRANSIT')
-      {
-            $.ajax({
-           url : '../send_notif.php',
-           type : 'POST', // Le type de la requête HTTP, ici devenu POST
-           data : 'token=' + unToken + '&libelle_event=' + unLibelle_Event + '&message_temps='+ message_temps, // On fait passer nos variables, exactement comme en GET, au script more_com.php
-        });
-      }
       
-
->>>>>>> origin/master
-
       if(mode == 'TRANSIT')
       {
           $.ajax({
            url : '../send_notif.php',
            type : 'POST',
-           data : 'token=' + unToken + '&libelle_event=' + unLibelle_Event + '&message_temps='+ message_temps, // On fait passer nos variables, exactement comme en GET, au script more_com.php
+           data : 'token=' + token + '&libelle_event=' + libelle_event + '&message_temps='+ message_temps, // On fait passer nos variables, exactement comme en GET, au script more_com.php
         });
       }
-      
 
-
+    }
+    else
+    {
+      if(mode == 'TRANSIT')
+      {
+          $.ajax({
+           url : '../send_notif.php',
+           type : 'POST',
+           data : 'token=' + token + '&libelle_event=' + libelle_event + '&message_temps='+ message_temps, // On fait passer nos variables, exactement comme en GET, au script more_com.php
+        });
+      }
     }
 
   });
@@ -148,33 +115,13 @@ function calculateAndDisplayRoute(address1, address2, mode) {
   /* Fonction de géocodage déclenchée en cliquant surle bouton "Geocoder"  */
 
   function codeAddress(address1, address2, token, libelle_event, date_event) {
-<<<<<<< HEAD
-=======
 
-    message_temps = null;
-    uneDateEvent = date_event;
-    unToken = token;
-    unLibelle_Event = libelle_event;
-    addressPhysique1 = address1;
-    addressPhysique2 = address2;
-
-   geocoder = new google.maps.Geocoder();
-
-   geocoder.geocode( { 'address': address1}, function(results, status) {
->>>>>>> origin/master
-
-    message_temps = null;
-    uneDateEvent = date_event;
-    unToken = token;
-    unLibelle_Event = libelle_event;
-    addressPhysique1 = address1;
-    addressPhysique2 = address2;
-
-    geocoderTrajet(address1, address2);
+    console.log(address1);
+    geocoderTrajet(address1, address2, libelle_event, token, date_event);
 
   }
 
-function geocoderTrajet(uneAddressetrajet, uneAddressetrajetBis)
+function geocoderTrajet(uneAddressetrajet, uneAddressetrajetBis, libelle_event, token, date_event)
 {
     geocoder = new google.maps.Geocoder();
 
@@ -184,13 +131,13 @@ function geocoderTrajet(uneAddressetrajet, uneAddressetrajetBis)
       if (status == google.maps.GeocoderStatus.OK) {
 
           addr1 = results[0];
-          geocoderTrajetBis(addr1, uneAddressetrajetBis);
+          geocoderTrajetBis(addr1, uneAddressetrajetBis, libelle_event, token, date_event);
         }
 
       });
 }
 
-function geocoderTrajetBis(uneAddresseEnplus, uneAddressetrajet)
+function geocoderTrajetBis(uneAddresseEnplus, uneAddressetrajet, libelle_event, token, date_event)
 {
     geocoder = new google.maps.Geocoder();
 
@@ -200,7 +147,7 @@ function geocoderTrajetBis(uneAddresseEnplus, uneAddressetrajet)
       if (status == google.maps.GeocoderStatus.OK) {
 
           addr2 = results[0];
-          tracerTrajet(uneAddresseEnplus, addr2);
+          tracerTrajet(uneAddresseEnplus, addr2, libelle_event, token, date_event);
         }
 
       });
