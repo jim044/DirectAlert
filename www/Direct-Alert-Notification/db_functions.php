@@ -82,8 +82,14 @@ class DB_Functions {
 
 
     public function getEvent($user) {
-        $result = $this->mysqli->query("select libelle, location, date_event FROM event_user WHERE id_user_mail='$user'");
+        $result = $this->mysqli->query("select id_event_user, libelle, location, date_event FROM event_user WHERE id_user_mail='$user'");
         return $result;
+    }
+
+    public function InsertDateModif($id_event_user)
+    {
+        $newDate = new Date('Y-m-d H:i:s');
+        $result = $this->mysqli->query("UPDATE event_user SET date_modif='$newDate' WHERE id_event_user='$id_event_user'");
     }
  
  

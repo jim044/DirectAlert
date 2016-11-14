@@ -14,9 +14,9 @@ while ($row = $res->fetch_assoc()) {
         if(empty($rowBis["location"]) == false)
         {
             
-            echo $rowBis["libelle"];
-            echo $rowBis["date_event"];
-            echo $rowBis["location"];
+            // echo $rowBis["libelle"];
+            // echo $rowBis["date_event"];
+            // echo $rowBis["location"];
             // echo"<script  type='text/javascript'>   
             //     codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX', 'PARIS'); 
             // </script>";
@@ -25,6 +25,13 @@ while ($row = $res->fetch_assoc()) {
                 codeAddress('".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."'); 
             </script>";
 
+            $newDate = new Date();
+
+            echo "test";
+            echo $newDate;
+            //$resultatInsert = $db->InsertDateModif($rowBis['id_event_user']);
+
+            echo $resultatInsert;
             break;
 
         }

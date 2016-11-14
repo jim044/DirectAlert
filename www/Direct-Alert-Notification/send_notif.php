@@ -6,6 +6,8 @@
 // $_POST['libelle_event'];
 //$_POST['message_temps'];
 
+include_once "db_functions.php";
+
 $registrationIds = array($_POST['token']);
 
     $fields = array
@@ -32,6 +34,7 @@ $registrationIds = array($_POST['token']);
     curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
     $result = curl_exec($ch );
     curl_close( $ch );
-    echo $result;
+
+
 
 ?>
