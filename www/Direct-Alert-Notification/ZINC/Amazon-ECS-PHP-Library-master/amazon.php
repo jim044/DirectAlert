@@ -1,7 +1,7 @@
 <?php
 
 require_once 'lib/AmazonECS.class.php';
-$client = new AmazonECS('AKIAJ7L4KKPYVFWPLRGA', '4CuY/H33aJfzVsJvQJAheHrVJu+tHwHRxxifwHG3', 'FR', 'smartpanel08-21');
+$client = new AmazonECS('AKIAJ7L4KKPYVFWPLRGA', '4CuY/H33aJfzVsJvQJAheHrVJu+tHwHRxxifwHG3', 'COM', 'smartpanel08-21');
 
 $response  = $client->category('Books')->page(1)->search('PHP 5');
 
