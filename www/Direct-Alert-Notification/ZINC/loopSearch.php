@@ -9,7 +9,8 @@ $http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 
  while ($row = $res->fetch_assoc()) 
  {
-	
+	$prixInf = False;
+
 	$ch = curl_init('https://api.zinc.io/v1/products/'.$row['asin'].'/offers?retailer=amazon');
 	curl_setopt($ch, CURLOPT_USERPWD, $http_auth_ident); 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -24,6 +25,7 @@ $http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 		{
 			if($value->{'price'} + $value->{'ship_price'} <= $row['button_price'])
 			{
+				$prixInf = True;
 				echo $value->{'condition'};
 				echo "</br>";
 				echo $value->{'price'} + $value->{'ship_price'};
@@ -33,6 +35,11 @@ $http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 			}
 			
 		}
+	}
+
+	if($prixInf)
+	{
+		echo "test";
 	}
 
 	echo "</br>";

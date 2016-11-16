@@ -8,14 +8,14 @@ $market = $_POST['market'];
 $fields = array
     (
         'client_token' => 'E74D0B610F859CF4B0E5CA25',
-    	'retailer' => '"'.$market.'"',
-    	'products' => array(array('product_id' => '"'.$id_product.'"', 'quantity' => 1, 'variants' => array('dimension' => '', 'value' => ''))),
+    	'retailer' => 'amazon',
+    	'products' => array(array('product_id' => 'B012AWBDWO', 'quantity' => 1, 'variants' => array('dimension' => '', 'value' => ''))),
     	'max_price' => 2300,
     	'shipping_address' => array('first_name' => 'Jimmy', 'last_name' => 'VILLOSSEL', 'address_line1' => '48 E RUE ERNEST RENAN', 'address_line2' => '', 'zip_code' => '69200', 'city' => 'VENISSIEUX', 'state' => 'Rhone', 'country' => 'FR', 'phone_number' => '0643503741'),
     	'is_gift' => true,
 	    'gift_message' => 'Here is your package, Jimmy! Enjoy!',
 		'shipping' => array('order_by' => 'price', 'max_days' => 90, 'max_price' => 750), 
-		'payment_method' => array('name_on_card' => 'Jimmy Villossel', 'number' => '54654654', 'security_code' => '789', 'expiration_month' => 2,
+		'payment_method' => array('name_on_card' => 'Jimmy Villossel', 'number' => '', 'security_code' => '', 'expiration_month' => 2,
 	    'expiration_year' => 2020,
 	    'use_gift' => false),
 
@@ -68,4 +68,6 @@ echo $response;
 //{"request_id":"06109a1b139591ccdc56be2a6f81279d"}
 
 //{"request_id":"f3deba224678ffae62d4ad4b451db1ff"}
+
+//{"request_id":"0b8abe27fed9088076286b91e7c0f5aa"}
 ?>
