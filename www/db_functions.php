@@ -1,3 +1,4 @@
+
 <?php
 
 class DB_Functions {
@@ -27,6 +28,26 @@ class DB_Functions {
     {
         $result = $this->mysqli->query("select id, name, asin, button_price, alert FROM button");
         return $result;
+    }
+
+    public function getUser()
+    {
+        $result = mysql_query("select * FROM fos_user"); // Requête SQ
+        $donnees = mysql_fetch_array($result)
+
+        //$result = $this->mysqli->query("select * FROM fos_user");
+        return $donnees;
+    }
+
+    public function getCB()
+    {
+        // $result = $this->mysqli->query("select * FROM cb");
+        // return $result;
+
+        $result = mysql_query("select * FROM cb"); // Requête SQ
+        $donnees = mysql_fetch_array($result)
+
+        return $donnees;
     }
 
    

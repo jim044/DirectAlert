@@ -1,4 +1,4 @@
-package directalert.com.directalert.BLL;
+package directalert.com.directalert;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import directalert.com.directalert.BLL.ListEventUser;
+import directalert.com.directalert.BLL.ListEventUserAdapter;
 import directalert.com.directalert.R;
 
 public class ListEventUserActivity extends AppCompatActivity {
@@ -36,6 +38,12 @@ public class ListEventUserActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0,View arg1, int position, long arg3)
             {
                 //listEventUser.get(position).getDescription()
+
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, listEventUser.get(position).getDescription(), duration);
+                toast.show();
             }
         });
 

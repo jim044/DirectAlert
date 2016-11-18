@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 import directalert.com.directalert.BO.EventUser;
-import directalert.com.directalert.BO.User;
 
 /**
  * Created by user on 21/10/2016.
@@ -53,7 +52,7 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             dest.writeString(eventUser.getSummary());
             dest.writeString(eventUser.getDescription());
             dest.writeString(eventUser.getLocation());
-            dest.writeValue(eventUser.getUser());
+            //dest.writeValue(eventUser.getUser());
 
         }
     }
@@ -74,7 +73,7 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             eventUser.setSummary(in.readString());
             eventUser.setDescription(in.readString());
             eventUser.setLocation(in.readString());
-            eventUser.setUser((User) in.readValue(getClass().getClassLoader()));
+            //eventUser.setUser((User) in.readValue(getClass().getClassLoader()));
 
             this.add(eventUser);
         }

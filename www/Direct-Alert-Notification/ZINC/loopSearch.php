@@ -3,9 +3,17 @@
 include_once "db_functions.php";
 
 $db = new DB_Functions();
-$res = $db->getAsin();
-$http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 
+$res = $db->getToken_user();
+
+while ($row = $res->fetch_assoc()) 
+{
+	$http_auth_ident = $row['token_zinc'];
+	break;
+}
+
+$res = $db->getButton();
+//$http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 
  while ($row = $res->fetch_assoc()) 
  {
@@ -25,26 +33,63 @@ $http_auth_ident = "E74D0B610F859CF4B0E5CA25";
 		{
 			if($value->{'price'} + $value->{'ship_price'} <= $row['button_price'])
 			{
-				$prixInf = True;
+				//$prixInf = True;
 				echo $value->{'condition'};
 				echo "</br>";
 				echo $value->{'price'} + $value->{'ship_price'};
-				echo "</br>";
-				echo "</br>";
-				break;
+
+				echo $http_auth_ident;
+
+				// if($row['name'] == "Button 1")
+				// {
+				// 	system ( "gpio mode 1 out" );
+				// 	system ( "gpio write 1 1" );
+				// }
+				// else if($row['name'] == "Button 2")
+				// {
+				// 	system ( "gpio mode 3 out" );
+				// 	system ( "gpio write 3 1" );
+				// }
+				// else if($row['name'] == "Button 3")
+				// {
+				// 	system ( "gpio mode 5 out" );
+				// 	system ( "gpio write 5 1" );
+				// }
+				// else if($row['name'] == "Button 4")
+				// {
+				// 	system ( "gpio mode 7 out" );
+				// 	system ( "gpio write 7 1" );
+				// }
+				
 			}
+			else
+			{
+				// if($row['name'] == "Button 1")
+				// {
+				// 	system ( "gpio mode 1 in" );
+				// 	system ( "gpio write 1 0" );
+				// }
+				// else if($row['name'] == "Button 2")
+				// {
+				// 	system ( "gpio mode 3 in" );
+				// 	system ( "gpio write 3 0" );
+				// }
+				// else if($row['name'] == "Button 3")
+				// {
+				// 	system ( "gpio mode 5 in" );
+				// 	system ( "gpio write 5 0" );
+				// }
+				// else if($row['name'] == "Button 4")
+				// {
+				// 	system ( "gpio mode 7 in" );
+				// 	system ( "gpio write 7 0" );
+				// }
+			}
+
+			break;
 			
 		}
 	}
-
-	if($prixInf)
-	{
-		echo "test";
-	}
-
-	echo "</br>";
-	echo "</br>";
-
  }
 
 

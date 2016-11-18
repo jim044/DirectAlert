@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,12 +42,11 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
+import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
-import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.User;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -105,12 +105,10 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 signIn();
 
 
-
                 // Initialize credentials and service object.
                 mCredential = GoogleAccountCredential.usingOAuth2(
                         getApplicationContext(), Arrays.asList(SCOPES))
                         .setBackOff(new ExponentialBackOff());
-
 
                 getResultsFromApi();
 
@@ -385,12 +383,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 //output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
 
-                //Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-                //myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
-                //startActivity(myIntent);
-
-
                 call_firebase(listEventUser);
+
+                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
+                startActivity(myIntent);
 
             }
         }

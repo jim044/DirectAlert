@@ -52,7 +52,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDGaxBknCO-sWi2yCEqUGSss6NTQ8TCP6Q" />
 
-        <activity android:name=".BLL.ListEventUserActivity" />
+        <activity android:name=".ListEventUserActivity" />
     </application>
 
 </manifest>
