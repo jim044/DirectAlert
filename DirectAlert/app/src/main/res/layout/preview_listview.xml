@@ -1,41 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LL_Fond">
 
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="10dp"
-        android:textSize="20px"
-        android:textStyle="bold"
-        tools:text="Summary"
-        />
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="20px"
+            android:textStyle="bold"
+            tools:text="Summary"
+            />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/summary"
-        android:layout_below="@+id/summary"
-        android:textSize="20px"
-        tools:text="Description"
-        />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_alignLeft="@+id/summary"
+            android:layout_below="@+id/summary"
+            android:textSize="20px"
+            tools:text="Description"
+            />
 
-    <TextView
-        android:id="@+id/location"
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_alignLeft="@+id/description"
+            android:layout_below="@+id/description"
+            android:textSize="20px"
+            tools:text="Location"
+            />
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/description"
-        android:layout_below="@+id/description"
-        android:textSize="20px"
-        tools:text="Location"
-        />
+        android:layout_gravity="center"
+        android:columnCount="1"
+        android:rowCount="4">
+
+        <TextView
+            android:id="@+id/driving"
+            android:textColor="@android:color/black"
+            android:layout_gravity="left|top"
+            android:textSize="20px"
+            tools:text="En voiture : "
+            />
+        <TextView
+            android:id="@+id/transit"
+            android:layout_gravity="left|top"
+            android:textColor="@android:color/black"
+            android:textSize="20px"
+            tools:text="En transport en commun : "
+            />
+
+        <TextView
+            android:id="@+id/bicycling"
+            android:layout_gravity="left|top"
+            android:textColor="@android:color/black"
+            android:textSize="20px"
+            tools:text="A vélo : "
+            />
+        <TextView
+            android:id="@+id/walking"
+            android:layout_gravity="left|top"
+            android:textColor="@android:color/black"
+            android:textSize="20px"
+            tools:text="En marchant : "
+            />
+    </GridLayout>
+
 
 </LinearLayout>

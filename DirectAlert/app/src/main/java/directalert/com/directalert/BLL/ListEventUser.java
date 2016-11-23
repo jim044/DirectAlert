@@ -52,8 +52,10 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             dest.writeString(eventUser.getSummary());
             dest.writeString(eventUser.getDescription());
             dest.writeString(eventUser.getLocation());
-            //dest.writeValue(eventUser.getUser());
-
+            dest.writeString(eventUser.getDriving());
+            dest.writeString(eventUser.getTransit());
+            dest.writeString(eventUser.getBicycling());
+            dest.writeString(eventUser.getWalking());
         }
     }
 
@@ -73,7 +75,10 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             eventUser.setSummary(in.readString());
             eventUser.setDescription(in.readString());
             eventUser.setLocation(in.readString());
-            //eventUser.setUser((User) in.readValue(getClass().getClassLoader()));
+            eventUser.setDriving(in.readString());
+            eventUser.setTransit(in.readString());
+            eventUser.setBicycling(in.readString());
+            eventUser.setWalking(in.readString());
 
             this.add(eventUser);
         }

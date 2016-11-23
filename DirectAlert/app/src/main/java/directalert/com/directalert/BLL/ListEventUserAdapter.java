@@ -64,10 +64,21 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView tv_Description = (TextView)layoutItem.findViewById(R.id.description);
         TextView tv_Location = (TextView)layoutItem.findViewById(R.id.location);
 
+        TextView txt_driving = (TextView)layoutItem.findViewById(R.id.driving);
+        TextView tv_transit = (TextView)layoutItem.findViewById(R.id.transit);
+        TextView tv_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
+        TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
+
         //(3) : Renseignement des valeurs
         txt_Summary.setText(mListEvent.get(position).getSummary());
         tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(mListEvent.get(position).getLocation());
+
+        txt_driving.setText("En voiture :" + mListEvent.get(position).getDriving());
+        tv_transit.setText("En transport en commune :" + mListEvent.get(position).getTransit());
+        tv_bicycling.setText("A vélo :" + mListEvent.get(position).getBicycling());
+        txt_walking.setText("En marchant :" + mListEvent.get(position).getWalking());
+
 
         //On retourne l'item créé.
         return layoutItem;

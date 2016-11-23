@@ -30,7 +30,24 @@ public class EventUser implements Parcelable {
     private String summary; //Utile
     private String description; //Utile
     private String location; //Utile
+    private String driving;
+    private String transit;
+    private String bicycling;
+    private String walking;
     private User user; //Utile
+
+    public EventUser(String id, DateTime start, String summary, String description, String location, User user, String driving, String transit, String bicycling, String walking) {
+        this.id = id;
+        this.start = start;
+        this.summary = summary;
+        this.description = description;
+        this.location = location;
+        this.user = user;
+        this.driving = driving;
+        this.transit = transit;
+        this.bicycling = bicycling;
+        this.walking = walking;
+    }
 
     public EventUser()
     {
@@ -76,6 +93,38 @@ public class EventUser implements Parcelable {
         this.description = description;
         this.location = location;
         this.user = user;
+    }
+
+    public String getDriving() {
+        return driving;
+    }
+
+    public void setDriving(String driving) {
+        this.driving = driving;
+    }
+
+    public String getTransit() {
+        return transit;
+    }
+
+    public void setTransit(String transit) {
+        this.transit = transit;
+    }
+
+    public String getBicycling() {
+        return bicycling;
+    }
+
+    public void setBicycling(String bicycling) {
+        this.bicycling = bicycling;
+    }
+
+    public String getWalking() {
+        return walking;
+    }
+
+    public void setWalking(String walking) {
+        this.walking = walking;
     }
 
     public String getId() {
@@ -255,6 +304,10 @@ public class EventUser implements Parcelable {
         dest.writeString(this.getSummary());
         dest.writeString(this.getDescription());
         dest.writeString(this.getLocation());
+        dest.writeString(this.getDriving());
+        dest.writeString(this.getTransit());
+        dest.writeString(this.getBicycling());
+        dest.writeString(this.getWalking());
 
     }
 
@@ -265,6 +318,10 @@ public class EventUser implements Parcelable {
         this.setSummary(in.readString());
         this.setDescription(in.readString());
         this.setLocation(in.readString());
+        this.setDriving(in.readString());
+        this.setTransit(in.readString());
+        this.setBicycling(in.readString());
+        this.setWalking(in.readString());
     }
 
 }

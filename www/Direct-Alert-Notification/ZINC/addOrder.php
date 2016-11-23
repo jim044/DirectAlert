@@ -1,33 +1,35 @@
 <?php
 
-$token_client = $_POST['token_client'];
-$id_product = $_POST['id_product'];
-$market = $_POST['market'];
+include_once "db_functions.php";
 
+$db = new DB_Functions();
+
+$res = $db->getUser();
+$resCB = $db->getCB();
 
 $fields = array
     (
-        'client_token' => 'E74D0B610F859CF4B0E5CA25',
+        'client_token' => '"'.$res['token_zinc'].'"',
     	'retailer' => 'amazon',
     	'products' => array(array('product_id' => 'B012AWBDWO', 'quantity' => 1, 'variants' => array('dimension' => '', 'value' => ''))),
     	'max_price' => 2300,
-    	'shipping_address' => array('first_name' => 'Jimmy', 'last_name' => 'VILLOSSEL', 'address_line1' => '48 E RUE ERNEST RENAN', 'address_line2' => '', 'zip_code' => '69200', 'city' => 'VENISSIEUX', 'state' => 'Rhone', 'country' => 'FR', 'phone_number' => '0643503741'),
+    	'shipping_address' => array('first_name' => '"'.$res['first_name'].'"', 'last_name' => '"'.$res['last_name'].'"', 'address_line1' => '48 E RUE ERNEST RENAN', 'address_line2' => '', 'zip_code' => '69200', 'city' => 'VENISSIEUX', 'state' => 'Rhone', 'country' => 'FR', 'phone_number' => '"'.$res['phone_number'].'"'),
     	'is_gift' => true,
 	    'gift_message' => 'Here is your package, Jimmy! Enjoy!',
-		'shipping' => array('order_by' => 'price', 'max_days' => 90, 'max_price' => 750), 
-		'payment_method' => array('name_on_card' => 'Jimmy Villossel', 'number' => '', 'security_code' => '', 'expiration_month' => 2,
-	    'expiration_year' => 2020,
+		'shipping' => array('order_by' => 'price', 'max_days' => 90, 'max_price' => 20), 
+		'payment_method' => array('name_on_card' => '"'.$resCB['first_name'].' '.$resCB['last_name'].'"', 'number' => '"'.$resCB['carte_number'].'"', 'security_code' => '"'.$resCB['cvc'].'"', 'expiration_month' => intval($resCB['month']),
+	    'expiration_year' => intval($resCB['year']),
 	    'use_gift' => false),
 
-	    'billing_address' => array('first_name' => 'Jimmy',
-								    'last_name' => 'VILLOSSEL',
+	    'billing_address' => array('first_name' => '"'.$res['first_name'].'"',
+								    'last_name' => '"'.$res['last_name'].'"',
 								    'address_line1' => '48 E RUE ERNEST RENAN',
 								    'address_line2'=> "",
 								    'zip_code' => '69200',
 								    'city'=> "LYON",
 								    'state' => "RHONES",
 								    'country'=> "FR",
-								    'phone_number' => "0643503741"),
+								    'phone_number' => '"'.$res['phone_number'].'"'),
 	     'retailer_credentials' => array('email' => 'jimmy.1993@hotmail.fr',
 		    							'password' => 'OBIWAN2715'),
 	     'webhooks' => array('order_placed' => 'http://mywebsite.com/zinc/order_placed',
@@ -50,7 +52,7 @@ $ch = curl_init('https://api.zinc.io/v0/order');
 
 $response = curl_exec($ch);
 
-echo $response;
+//echo $response;
 
 
 //{"request_id":"5b49a2270cac4efef43f68cc218a394e"}

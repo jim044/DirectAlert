@@ -82,7 +82,7 @@ class DB_Functions {
 
 
     public function getEvent($user) {
-        $result = $this->mysqli->query("select id_event_user, libelle, location, date_event FROM event_user WHERE id_user_mail='$user'");
+        $result = $this->mysqli->query("select id_event_user, libelle, location, date_event, driving, transit, bicycling, walking FROM event_user WHERE id_user_mail='$user'");
         return $result;
     }
 

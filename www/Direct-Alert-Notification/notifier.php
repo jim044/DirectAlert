@@ -5,45 +5,58 @@ echo "<script type='text/javascript' src='js/calcul_navigation.js'></script>";
 
 $db = new DB_Functions();
 $res = $db->getToken();
+$tabToken=array();
+$tabEvent=array();
 
 while ($row = $res->fetch_assoc()) {
+
+
+    //array_push($tabToken,"token",$row["id_user_mail"]);
+    //print_r($tabEvent);
+
 	//echo $row["id_token"];
 	$resBis = $db->getEvent($row["id_user_mail"]);
-	while ($rowBis = $resBis->fetch_assoc()) {
-        //echo $rowBis["location"];
-        if(empty($rowBis["location"]) == false)
-        {
+    var_dump($resBis->fetch_all());
+
+
+    echo"<script  type='text/javascript'>   
+                 test('".$resBis->fetch_all()."'); 
+             </script>";
+
+	// while ($rowBis = $resBis->fetch_assoc()) {
+
+ //            array_push($tabEvent, "Event", array($rowBis["location"], "PARIS" , $rowBis["id_token"], $rowBis["libelle"], $rowBis["date_event"]));
+           
             
-            // echo $rowBis["libelle"];
-            // echo $rowBis["date_event"];
-            // echo $rowBis["location"];
-            // echo"<script  type='text/javascript'>   
-            //     codeAddress('48 RUE ERNEST RENAN, 69200, VENISSIEUX', 'PARIS'); 
-            // </script>";
+ // //        //echo $rowBis["location"];
+ // //        if(empty($rowBis["location"]) == false)
+ // //        {
+            
 
-            echo"<script  type='text/javascript'>   
-                codeAddress('".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."'); 
-            </script>";
+ // //            echo"<script  type='text/javascript'>   
+ // //                codeAddress('".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."'); 
+ // //            </script>";
 
-            $newDate = new Date();
+ // //            break;
 
-            echo "test";
-            echo $newDate;
-            //$resultatInsert = $db->InsertDateModif($rowBis['id_event_user']);
-
-            echo $resultatInsert;
-            break;
-
-        }
-        else
-        {
-            //echo "test";
-        }
-        
-        //send_notification($row["id_token"], $rowBis["libelle"]);
-    }
+ // //        }
+ // //        else
+ // //        {
+ // //            //echo "test";
+ // //        }
+ //        //break;
+ // //        //send_notification($row["id_token"], $rowBis["libelle"]);
+ //    }
+ //     array_push($tabToken, "tab", $tabEvent);
+ //     $tabEvent=array();
+    
     break;
 }
+
+// echo json_encode($tabToken);
+// echo"<script  type='text/javascript'>   
+//                  test('".$tabToken."'); 
+//              </script>";
 
 //
 
