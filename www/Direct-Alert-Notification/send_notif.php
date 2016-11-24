@@ -6,7 +6,17 @@
 // $_POST['libelle_event'];
 //$_POST['message_temps'];
 
+
+
 include_once "db_functions.php";
+
+$splitTabEventLate = explode(".\n", $_POST['message_temps']);
+$db = new DB_Functions();
+$res = $db->UpdateEventDriving($splitTabEventLate[0], $_POST['id_event']);
+$res = $db->UpdateEventWalking($splitTabEventLate[1], $_POST['id_event']);
+$res = $db->UpdateEventBicycling($splitTabEventLate[2], $_POST['id_event']);
+$res = $db->UpdateEventTransit($splitTabEventLate[3], $_POST['id_event']);
+
 
 $registrationIds = array($_POST['token']);
 

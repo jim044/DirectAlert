@@ -36,9 +36,6 @@ public class GetEvent extends AsyncTask<Object, String, Response> {
                 .add(KEY_USER, jsonUser)
                 .build();
 
-        //
-        //
-
         Request request = new Request.Builder()
                 .url(REGISTER_URL)
                 .post(requestBody)
@@ -49,16 +46,16 @@ public class GetEvent extends AsyncTask<Object, String, Response> {
 
             String jsonData = response.body().string();
 
-            // Transform reponse to JSon Object
-            JSONObject jsontest = new JSONObject(jsonData);
-
-            // Use the JSon Object
-            Log.d("json", jsontest.getString("message"));
+//            // Transform reponse to JSon Object
+//            JSONObject jsontest = new JSONObject(jsonData);
+////
+////            // Use the JSon Object
+//            Log.d("json", jsontest.getString("event"));
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
         }
 
         return response;

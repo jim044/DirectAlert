@@ -91,6 +91,29 @@ class DB_Functions {
         $newDate = new Date('Y-m-d H:i:s');
         $result = $this->mysqli->query("UPDATE event_user SET date_modif='$newDate' WHERE id_event_user='$id_event_user'");
     }
+
+
+
+
+    public function UpdateEventDriving($timeLate, $id_event_user)
+    {
+        $result = $this->mysqli->query("UPDATE event_user SET driving='$timeLate' WHERE id_event_user='$id_event_user'");
+    }
+    
+    public function UpdateEventTransit($timeLate, $id_event_user)
+    {
+        $result = $this->mysqli->query("UPDATE event_user SET transit='$timeLate' WHERE id_event_user='$id_event_user'");
+    }
+    
+    public function UpdateEventBicycling($timeLate, $id_event_user)
+    {
+        $result = $this->mysqli->query("UPDATE event_user SET bicycling='$timeLate' WHERE id_event_user='$id_event_user'");
+    }
+    
+    public function UpdateEventWalking($timeLate, $id_event_user)
+    {
+        $result = $this->mysqli->query("UPDATE event_user SET walking='$timeLate' WHERE id_event_user='$id_event_user'");
+    }
  
  
 }

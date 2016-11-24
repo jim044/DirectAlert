@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import directalert.com.directalert.BLL.GetEvent;
+import directalert.com.directalert.BLL.HttpRequest;
 import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
@@ -384,6 +386,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 //mOutputText.setText(TextUtils.join("\n", output));
 
                 call_firebase(listEventUser);
+
+                new GetEvent().execute(listEventUser.get(0).getUser());
 
                 Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
                 myIntent.putExtra("listEventUser",(Parcelable)listEventUser);

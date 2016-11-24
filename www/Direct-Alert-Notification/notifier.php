@@ -21,7 +21,7 @@ while ($row = $res->fetch_assoc()) {
          {
             echo"<script  type='text/javascript'> 
                 tab['".$i."']=new Array();
-                 tab['".$i."']= ['".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."']; 
+                 tab['".$i."']= ['".$rowBis['id_event_user']."', '".$rowBis['location']."', 'PARIS', '".$row["id_token"]."', '".$rowBis["libelle"]."', '".$rowBis["date_event"]."']; 
              </script>";
              $i = $i+1;
          }
