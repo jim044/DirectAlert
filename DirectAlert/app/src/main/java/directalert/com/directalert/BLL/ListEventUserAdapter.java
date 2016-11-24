@@ -74,10 +74,10 @@ public class ListEventUserAdapter extends BaseAdapter {
         tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(mListEvent.get(position).getLocation());
 
-        txt_driving.setText("En voiture :" + mListEvent.get(position).getDriving());
-        tv_transit.setText("En transport en commune :" + mListEvent.get(position).getTransit());
-        tv_bicycling.setText("A vélo :" + mListEvent.get(position).getBicycling());
-        txt_walking.setText("En marchant :" + mListEvent.get(position).getWalking());
+        txt_driving.setText("En voiture : " + mListEvent.get(position).getDriving());
+        tv_transit.setText("En transport en commun : " + mListEvent.get(position).getTransit());
+        tv_bicycling.setText("A vélo : " + mListEvent.get(position).getBicycling());
+        txt_walking.setText("En marchant : " + mListEvent.get(position).getWalking());
 
 
         //On retourne l'item créé.

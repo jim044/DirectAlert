@@ -36,11 +36,10 @@ public class EventUser implements Parcelable {
     private String walking;
     private User user; //Utile
 
-    public EventUser(String id, DateTime start, String summary, String description, String location, User user, String driving, String transit, String bicycling, String walking) {
+    public EventUser(String id, DateTime start, String summary, String location, User user, String driving, String transit, String bicycling, String walking) {
         this.id = id;
         this.start = start;
         this.summary = summary;
-        this.description = description;
         this.location = location;
         this.user = user;
         this.driving = driving;

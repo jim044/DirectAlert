@@ -429,7 +429,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                                 start = new DateTime(date);
                             }
 
-                            listEventUserBis.add(new EventUser(jsonObject.getString("id_event_user"), start, jsonObject.getString("libelle"), jsonObject.getString("location"), user));
+                            listEventUserBis.add(new EventUser(jsonObject.getString("id_event_user"), start, jsonObject.getString("libelle"), jsonObject.getString("location"), user, jsonObject.getString("driving"),jsonObject.getString("transit"),jsonObject.getString("bicycling"), jsonObject.getString("walking")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
