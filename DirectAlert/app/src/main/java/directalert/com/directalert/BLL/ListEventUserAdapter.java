@@ -1,6 +1,9 @@
 package directalert.com.directalert.BLL;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +67,9 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView tv_Description = (TextView)layoutItem.findViewById(R.id.description);
         TextView tv_Location = (TextView)layoutItem.findViewById(R.id.location);
 
+        setFont(txt_Summary,"Lobster 1.4.otf");
+        setFont(tv_Description,"Lobster 1.4.otf");
+
         TextView txt_driving = (TextView)layoutItem.findViewById(R.id.driving);
         TextView tv_transit = (TextView)layoutItem.findViewById(R.id.transit);
         TextView tv_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
@@ -83,4 +89,17 @@ public class ListEventUserAdapter extends BaseAdapter {
         //On retourne l'item créé.
         return layoutItem;
     }
+
+    public void setFont(TextView textView, String fontName) {
+        if(fontName != null){
+            try {
+                Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/" + fontName);
+                textView.setTypeface(typeface);
+            } catch (Exception e) {
+                Log.e("FONT", fontName + " not found", e);
+            }
+        }
+    }
+
+
 }
