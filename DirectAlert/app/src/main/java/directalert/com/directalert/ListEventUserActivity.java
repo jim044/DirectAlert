@@ -19,29 +19,20 @@ import directalert.com.directalert.R;
 
 public class ListEventUserActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_event_user);
 
         final Context context = getApplicationContext();
-    }
-//
-//    public void afficherListe(List<EventUser> listEventUserOutPut)
-//    {
-//        Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-//        myIntent.putExtra("listEventUser",(Parcelable)listEventUserOutPut);
-//        startActivity(myIntent);
-//    }
-    public void lancerListe(final List<EventUser> listEventUserOutPut)
-    {
         final int duration = Toast.LENGTH_SHORT;
 
-//        Bundle b = getIntent().getExtras();
-//        final ListEventUser listEventUser = b.getParcelable("listEventUser");
+        Bundle b = getIntent().getExtras();
+        final ListEventUser listEventUser = b.getParcelable("listEventUser");
 
         //Création et initialisation de l'Adapter pour les personnes
-        ListEventUserAdapter adapter = new ListEventUserAdapter(this, listEventUserOutPut);
+        ListEventUserAdapter adapter = new ListEventUserAdapter(this, listEventUser);
 
         //Récupération du composant ListView
         ListView listEvent = (ListView)findViewById(R.id.listViewEvent);
@@ -52,10 +43,9 @@ public class ListEventUserActivity extends AppCompatActivity {
             {
                 //listEventUser.get(position).getDescription()
 
-                Context context = getApplicationContext();
                 int duration = Toast.LENGTH_LONG;
 
-                Toast toast = Toast.makeText(context, listEventUserOutPut.get(position).getDescription(), duration);
+                Toast toast = Toast.makeText(context, listEventUser.get(position).getDescription(), duration);
                 toast.show();
             }
         });
@@ -63,5 +53,4 @@ public class ListEventUserActivity extends AppCompatActivity {
         //Initialisation de la liste avec les données
         listEvent.setAdapter(adapter);
     }
-
 }

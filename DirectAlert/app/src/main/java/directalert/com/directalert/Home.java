@@ -39,10 +39,19 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import directalert.com.directalert.BLL.GetEvent;
 import directalert.com.directalert.BLL.HttpRequest;
@@ -73,6 +82,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
     private ListEventUser listEventUser = new ListEventUser();
+    private ListEventUser listEventUserBis = new ListEventUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +94,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                FirebaseIDService unFire = new FirebaseIDService();
-//
-//                unFire.onTokenRefresh();
 
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
@@ -378,6 +384,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         @Override
         protected void onPostExecute(List<EventUser> output) {
             //mProgress.hide();
+            String resultatRequete = null;
             if (output == null || output.size() == 0) {
                 //mOutputText.setText("No results returned.");
             } else {
@@ -387,11 +394,53 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
                 call_firebase(listEventUser);
 
-                new GetEvent().execute(listEventUser.get(0).getUser());
+                AsyncTask resultattache = new GetEvent().execute(listEventUser.get(0).getUser());
 
-//                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-//                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
-//                startActivity(myIntent);
+                try {
+                    Object resultTask = resultattache.get();
+                    resultatRequete = (String) resultTask;
+                    Log.d("test", "test");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                JSONArray jsontest = null;
+                try {
+                    jsontest = new JSONArray(resultatRequete);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+
+                for(int i = 0; i<jsontest.length(); i++)
+                    {
+                        try {
+                            JSONObject jsonObject = jsontest.getJSONObject(i);
+
+                            User user = new User(jsonObject.getString("id_user_mail"));
+
+                            Date date = simpleDateFormat.parse(jsonObject.getString("date_event"));
+                            DateTime start = new DateTime(date);
+
+                            if(start == null) {
+                                start = new DateTime(date);
+                            }
+
+                            listEventUserBis.add(new EventUser(jsonObject.getString("id_event_user"), start, jsonObject.getString("libelle"), jsonObject.getString("location"), user));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+                myIntent.putExtra("listEventUser",(Parcelable)listEventUserBis);
+                startActivity(myIntent);
 
             }
         }
