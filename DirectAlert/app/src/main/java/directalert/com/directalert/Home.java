@@ -389,9 +389,9 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
                 new GetEvent().execute(listEventUser.get(0).getUser());
 
-                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
-                startActivity(myIntent);
+//                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+//                myIntent.putExtra("listEventUser",(Parcelable)listEventUser);
+//                startActivity(myIntent);
 
             }
         }

@@ -1,6 +1,8 @@
 package directalert.com.directalert;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BLL.ListEventUserAdapter;
+import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.R;
 
 public class ListEventUserActivity extends AppCompatActivity {
@@ -20,15 +25,23 @@ public class ListEventUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_event_user);
 
         final Context context = getApplicationContext();
+    }
+//
+//    public void afficherListe(List<EventUser> listEventUserOutPut)
+//    {
+//        Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+//        myIntent.putExtra("listEventUser",(Parcelable)listEventUserOutPut);
+//        startActivity(myIntent);
+//    }
+    public void lancerListe(final List<EventUser> listEventUserOutPut)
+    {
         final int duration = Toast.LENGTH_SHORT;
 
-
-
-        Bundle b = getIntent().getExtras();
-        final ListEventUser listEventUser = b.getParcelable("listEventUser");
+//        Bundle b = getIntent().getExtras();
+//        final ListEventUser listEventUser = b.getParcelable("listEventUser");
 
         //Création et initialisation de l'Adapter pour les personnes
-        ListEventUserAdapter adapter = new ListEventUserAdapter(this, listEventUser);
+        ListEventUserAdapter adapter = new ListEventUserAdapter(this, listEventUserOutPut);
 
         //Récupération du composant ListView
         ListView listEvent = (ListView)findViewById(R.id.listViewEvent);
@@ -42,7 +55,7 @@ public class ListEventUserActivity extends AppCompatActivity {
                 Context context = getApplicationContext();
                 int duration = Toast.LENGTH_LONG;
 
-                Toast toast = Toast.makeText(context, listEventUser.get(position).getDescription(), duration);
+                Toast toast = Toast.makeText(context, listEventUserOutPut.get(position).getDescription(), duration);
                 toast.show();
             }
         });
