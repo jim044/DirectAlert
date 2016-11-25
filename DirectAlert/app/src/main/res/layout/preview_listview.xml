@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="20px"
+            android:textSize="25px"
             android:textStyle="bold"
             tools:text="Summary"
             />
@@ -23,7 +23,7 @@
             android:textColor="@android:color/black"
             android:layout_alignLeft="@+id/summary"
             android:layout_below="@+id/summary"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="Description"
             />
 
@@ -34,7 +34,7 @@
             android:textColor="@android:color/black"
             android:layout_alignLeft="@+id/description"
             android:layout_below="@+id/description"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="Location"
             />
     <GridLayout
@@ -48,14 +48,14 @@
             android:id="@+id/driving"
             android:textColor="@android:color/black"
             android:layout_gravity="left|top"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="En voiture : "
             />
         <TextView
             android:id="@+id/transit"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="En transport en commun : "
             />
 
@@ -63,14 +63,14 @@
             android:id="@+id/bicycling"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="A vélo : "
             />
         <TextView
             android:id="@+id/walking"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="20px"
+            android:textSize="25px"
             tools:text="En marchant : "
             />
     </GridLayout>
