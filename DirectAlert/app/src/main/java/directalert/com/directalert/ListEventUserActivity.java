@@ -27,15 +27,34 @@ public class ListEventUserActivity extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_SHORT;
+        int passage = 0;
+        final ListEventUser uneListEvent = new ListEventUser();
+        final ListEventUser uneListEventBis = new ListEventUser();
 
         Bundle b = getIntent().getExtras();
         final ListEventUser listEventUser = b.getParcelable("listEventUser");
 
+        for(int i=0; i < listEventUser.size(); i++)
+        {
+            if(passage == 0) {
+                uneListEvent.add(listEventUser.get(i));
+                passage = 1;
+            }
+            else
+            {
+                uneListEventBis.add(listEventUser.get(i));
+                passage = 0;
+            }
+        }
+
+
         //Création et initialisation de l'Adapter pour les personnes
-        ListEventUserAdapter adapter = new ListEventUserAdapter(this, listEventUser);
+        ListEventUserAdapter adapter = new ListEventUserAdapter(this, uneListEvent);
+        ListEventUserAdapter adapterBis = new ListEventUserAdapter(this, uneListEventBis);
 
         //Récupération du composant ListView
         ListView listEvent = (ListView)findViewById(R.id.listViewEvent);
+        ListView listEventBis = (ListView)findViewById(R.id.listViewEventBis);
 
         listEvent.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -52,5 +71,6 @@ public class ListEventUserActivity extends AppCompatActivity {
 
         //Initialisation de la liste avec les données
         listEvent.setAdapter(adapter);
+        listEventBis.setAdapter(adapterBis);
     }
 }

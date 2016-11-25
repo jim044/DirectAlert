@@ -71,13 +71,13 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView tv_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
         TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
         //(3) : Renseignement des valeurs
-        txt_Summary.setText(mListEvent.get(position).getSummary());
+        txt_Summary.setText(" " + mListEvent.get(position).getSummary());
         //tv_Description.setText(mListEvent.get(position).getDescription());
-        tv_Location.setText(mListEvent.get(position).getLocation());
-        txt_driving.setText("En voiture : " + mListEvent.get(position).getDriving());
-        tv_transit.setText("En transport en commun : " + mListEvent.get(position).getTransit());
-        tv_bicycling.setText("A vélo : " + mListEvent.get(position).getBicycling());
-        txt_walking.setText("En marchant : " + mListEvent.get(position).getWalking());
+        tv_Location.setText(" " +  mListEvent.get(position).getLocation());
+        txt_driving.setText(" " +  mListEvent.get(position).getDriving());
+        tv_transit.setText(" " +  mListEvent.get(position).getTransit());
+        tv_bicycling.setText(" " +  mListEvent.get(position).getBicycling());
+        txt_walking.setText(" " +  mListEvent.get(position).getWalking());
 
         setFont(txt_Summary,"AgencyR.TTF");
         //setFont(tv_Description,"AgencyR.TTF");
