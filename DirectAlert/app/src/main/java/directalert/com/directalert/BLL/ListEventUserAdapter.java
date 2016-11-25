@@ -64,7 +64,7 @@ public class ListEventUserAdapter extends BaseAdapter {
 
         //(2) : Récupération des TextView de notre layout
         TextView txt_Summary = (TextView)layoutItem.findViewById(R.id.summary);
-        TextView tv_Description = (TextView)layoutItem.findViewById(R.id.description);
+        //TextView tv_Description = (TextView)layoutItem.findViewById(R.id.description);
         TextView tv_Location = (TextView)layoutItem.findViewById(R.id.location);
         TextView txt_driving = (TextView)layoutItem.findViewById(R.id.driving);
         TextView tv_transit = (TextView)layoutItem.findViewById(R.id.transit);
@@ -72,7 +72,7 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
         //(3) : Renseignement des valeurs
         txt_Summary.setText(mListEvent.get(position).getSummary());
-        tv_Description.setText(mListEvent.get(position).getDescription());
+        //tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(mListEvent.get(position).getLocation());
         txt_driving.setText("En voiture : " + mListEvent.get(position).getDriving());
         tv_transit.setText("En transport en commun : " + mListEvent.get(position).getTransit());
@@ -80,13 +80,12 @@ public class ListEventUserAdapter extends BaseAdapter {
         txt_walking.setText("En marchant : " + mListEvent.get(position).getWalking());
 
         setFont(txt_Summary,"AgencyR.TTF");
-        setFont(tv_Description,"AgencyR.TTF");
+        //setFont(tv_Description,"AgencyR.TTF");
         setFont(tv_Location,"AgencyR.TTF");
         setFont(txt_driving,"AgencyR.TTF");
         setFont(tv_transit,"AgencyR.TTF");
         setFont(tv_bicycling,"AgencyR.TTF");
         setFont(txt_walking,"AgencyR.TTF");
-        setFont(tv_Description,"AgencyR.TTF");
 
 
         //On retourne l'item créé.
