@@ -2,6 +2,7 @@ package directalert.com.directalert.BLL;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,6 +87,8 @@ public class ListEventUserAdapter extends BaseAdapter {
         setFont(tv_transit,"AgencyR.TTF");
         setFont(tv_bicycling,"AgencyR.TTF");
         setFont(txt_walking,"AgencyR.TTF");
+
+
 
 
         //On retourne l'item créé.

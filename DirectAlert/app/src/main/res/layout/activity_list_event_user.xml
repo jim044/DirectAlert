@@ -8,10 +8,17 @@
     tools:context="directalert.com.directalert.ListEventUserActivity">
 
     <ListView
-        android:id="@+id/listViewEvent"
+    android:id="@+id/listViewEvent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.5"
+    android:dividerHeight="7dp"/>
+
+    <TextView
+        android:id="@+id/textviewBarre"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_height="match_parent"
+        android:layout_weight="0.995"
         android:dividerHeight="7dp"/>
 
     <ListView

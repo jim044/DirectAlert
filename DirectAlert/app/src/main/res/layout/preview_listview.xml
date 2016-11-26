@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="35px"
+        android:textSize="30dp"
         android:textStyle="bold"
         tools:text="Summary"
         />
@@ -24,7 +24,7 @@
         android:textColor="@android:color/black"
         android:layout_alignLeft="@+id/description"
         android:layout_below="@+id/description"
-        android:textSize="35px"
+        android:textSize="30dp"
         tools:text="Location"
         />
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="30dp"
         android:columnCount="2"
         android:rowCount="4">
 
@@ -40,51 +40,51 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/car"
+            app:srcCompat="@mipmap/car"
             android:id="@+id/imageViewCar" />
         <TextView
             android:id="@+id/driving"
             android:textColor="@android:color/black"
             android:layout_gravity="left|top"
-            android:textSize="35px"
+            android:textSize="30dp"
             tools:text="En voiture : " />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/bus"
+            app:srcCompat="@mipmap/bus"
             android:id="@+id/imageViewTransit" />
         <TextView
             android:id="@+id/transit"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="35px"
+            android:textSize="30dp"
             tools:text="En transport en commun : "
             />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/velo"
+            app:srcCompat="@mipmap/velo"
             android:id="@+id/imageViewBicycling" />
         <TextView
             android:id="@+id/bicycling"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="35px"
+            android:textSize="30dp"
             tools:text="A vélo : "
             />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/marcheur"
+            app:srcCompat="@mipmap/marcheur"
             android:id="@+id/imageViewWalking" />
         <TextView
             android:id="@+id/walking"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="35px"
+            android:textSize="30dp"
             tools:text="En marchant : "
             />
     </GridLayout>

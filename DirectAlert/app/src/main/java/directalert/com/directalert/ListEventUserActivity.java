@@ -2,12 +2,14 @@ package directalert.com.directalert;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -72,5 +74,8 @@ public class ListEventUserActivity extends AppCompatActivity {
         //Initialisation de la liste avec les données
         listEvent.setAdapter(adapter);
         listEventBis.setAdapter(adapterBis);
+
+        TextView txt_barre = (TextView) findViewById(R.id.textviewBarre);
+        txt_barre.setBackgroundColor(Color.parseColor("#005BCC"));
     }
 }
