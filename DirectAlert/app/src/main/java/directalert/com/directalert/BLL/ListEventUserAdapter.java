@@ -12,6 +12,11 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.api.client.util.DateTime;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import directalert.com.directalert.BO.EventUser;
@@ -72,7 +77,9 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView tv_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
         TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
         //(3) : Renseignement des valeurs
-        txt_Summary.setText(" " + mListEvent.get(position).getSummary());
+
+
+        txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + mListEvent.get(position).getStart() + ")");
         //tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(" " +  mListEvent.get(position).getLocation());
         txt_driving.setText(" " +  mListEvent.get(position).getDriving());
