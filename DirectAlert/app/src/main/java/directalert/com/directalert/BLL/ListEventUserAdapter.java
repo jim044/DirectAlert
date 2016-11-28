@@ -79,6 +79,7 @@ public class ListEventUserAdapter extends BaseAdapter {
         //(3) : Renseignement des valeurs
 
 
+
         txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + mListEvent.get(position).getStart() + ")");
         //tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(" " +  mListEvent.get(position).getLocation());

@@ -3,7 +3,10 @@ package directalert.com.directalert.BLL;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.api.client.util.DateTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 import directalert.com.directalert.BO.EventUser;
 
@@ -51,6 +54,7 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             dest.writeString(eventUser.getId());
             dest.writeString(eventUser.getSummary());
             dest.writeString(eventUser.getDescription());
+            dest.writeString(eventUser.getStart().toString());
             dest.writeString(eventUser.getLocation());
             dest.writeString(eventUser.getDriving());
             dest.writeString(eventUser.getTransit());
@@ -74,6 +78,7 @@ public class ListEventUser extends ArrayList<EventUser> implements Parcelable {
             eventUser.setId(in.readString());
             eventUser.setSummary(in.readString());
             eventUser.setDescription(in.readString());
+            eventUser.setStart(new DateTime(in.readString()));
             eventUser.setLocation(in.readString());
             eventUser.setDriving(in.readString());
             eventUser.setTransit(in.readString());
