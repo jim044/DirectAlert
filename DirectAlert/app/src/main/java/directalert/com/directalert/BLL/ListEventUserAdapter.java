@@ -78,9 +78,10 @@ public class ListEventUserAdapter extends BaseAdapter {
         TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
         //(3) : Renseignement des valeurs
 
+        String dateStart = mListEvent.get(position).getStart().toString();
+        dateStart = dateStart.substring(0,4) + '/' + dateStart.substring(5,7) + '/' + dateStart.substring(8,10) + ' ' + dateStart.substring(11,13) + "H " + dateStart.substring(14,16) + "MIN " + dateStart.substring(17,19) + "S";
 
-
-        txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + mListEvent.get(position).getStart() + ")");
+        txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + dateStart + ")");
         //tv_Description.setText(mListEvent.get(position).getDescription());
         tv_Location.setText(" " +  mListEvent.get(position).getLocation());
         txt_driving.setText(" " +  mListEvent.get(position).getDriving());
@@ -95,9 +96,6 @@ public class ListEventUserAdapter extends BaseAdapter {
         setFont(tv_transit,"AgencyR.TTF");
         setFont(tv_bicycling,"AgencyR.TTF");
         setFont(txt_walking,"AgencyR.TTF");
-
-
-
 
         //On retourne l'item créé.
         return layoutItem;

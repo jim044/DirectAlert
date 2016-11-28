@@ -58,18 +58,31 @@ public class ListEventUserActivity extends AppCompatActivity {
         ListView listEvent = (ListView)findViewById(R.id.listViewEvent);
         ListView listEventBis = (ListView)findViewById(R.id.listViewEventBis);
 
-        listEvent.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            public void onItemClick(AdapterView<?> arg0,View arg1, int position, long arg3)
-            {
-                //listEventUser.get(position).getDescription()
-
-                int duration = Toast.LENGTH_LONG;
-
-                Toast toast = Toast.makeText(context, listEventUser.get(position).getDescription(), duration);
-                toast.show();
-            }
-        });
+//        listEvent.setOnItemClickListener(new AdapterView.OnItemClickListener()
+//        {
+//            public void onItemClick(AdapterView<?> arg0,View arg1, int position, long arg3)
+//            {
+//                //listEventUser.get(position).getDescription()
+//
+//                int duration = Toast.LENGTH_LONG;
+//
+//                Toast toast = Toast.makeText(context, listEventUser.get(position).getSummary(), duration);
+//                toast.show();
+//            }
+//        });
+//
+//        listEventBis.setOnItemClickListener(new AdapterView.OnItemClickListener()
+//        {
+//            public void onItemClick(AdapterView<?> arg0,View arg1, int position, long arg3)
+//            {
+//                //listEventUser.get(position).getDescription()
+//
+//                int duration = Toast.LENGTH_LONG;
+//
+//                Toast toast = Toast.makeText(context, listEventUser.get(position).getSummary(), duration);
+//                toast.show();
+//            }
+//        });
 
         //Initialisation de la liste avec les données
         listEvent.setAdapter(adapter);
