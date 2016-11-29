@@ -70,11 +70,11 @@ public class ListEventUserAdapter extends BaseAdapter {
 
         //(2) : Récupération des TextView de notre layout
         TextView txt_Summary = (TextView)layoutItem.findViewById(R.id.summary);
-        //TextView tv_Description = (TextView)layoutItem.findViewById(R.id.description);
-        TextView tv_Location = (TextView)layoutItem.findViewById(R.id.location);
+        //TextView txt_Description = (TextView)layoutItem.findViewById(R.id.description);
+        TextView txt_Location = (TextView)layoutItem.findViewById(R.id.location);
         TextView txt_driving = (TextView)layoutItem.findViewById(R.id.driving);
-        TextView tv_transit = (TextView)layoutItem.findViewById(R.id.transit);
-        TextView tv_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
+        TextView txt_transit = (TextView)layoutItem.findViewById(R.id.transit);
+        TextView txt_bicycling = (TextView)layoutItem.findViewById(R.id.bicycling);
         TextView txt_walking = (TextView)layoutItem.findViewById(R.id.walking);
         //(3) : Renseignement des valeurs
 
@@ -82,19 +82,39 @@ public class ListEventUserAdapter extends BaseAdapter {
         dateStart = dateStart.substring(0,4) + '/' + dateStart.substring(5,7) + '/' + dateStart.substring(8,10) + ' ' + dateStart.substring(11,13) + "H " + dateStart.substring(14,16) + "MIN " + dateStart.substring(17,19) + "S";
 
         txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + dateStart + ")");
-        //tv_Description.setText(mListEvent.get(position).getDescription());
-        tv_Location.setText(" " +  mListEvent.get(position).getLocation());
+        //txt_Description.setText(mListEvent.get(position).getDescription());
+        txt_Location.setText(" " +  mListEvent.get(position).getLocation());
         txt_driving.setText(" " +  mListEvent.get(position).getDriving());
-        tv_transit.setText(" " +  mListEvent.get(position).getTransit());
-        tv_bicycling.setText(" " +  mListEvent.get(position).getBicycling());
+        txt_transit.setText(" " +  mListEvent.get(position).getTransit());
+        txt_bicycling.setText(" " +  mListEvent.get(position).getBicycling());
         txt_walking.setText(" " +  mListEvent.get(position).getWalking());
 
+        if(txt_driving.getText().equals(" En retard"))
+        {
+            txt_driving.setTextColor(Color.RED);
+        }
+
+        if(txt_transit.getText().equals(" En retard"))
+        {
+            txt_transit.setTextColor(Color.RED);
+        }
+
+        if(txt_bicycling.getText().equals(" En retard"))
+        {
+            txt_bicycling.setTextColor(Color.RED);
+        }
+
+        if(txt_walking.getText().equals(" En retard"))
+        {
+            txt_walking.setTextColor(Color.RED);
+        }
+
         setFont(txt_Summary,"AgencyR.TTF");
-        //setFont(tv_Description,"AgencyR.TTF");
-        setFont(tv_Location,"AgencyR.TTF");
+        //setFont(txt_Description,"AgencyR.TTF");
+        setFont(txt_Location,"AgencyR.TTF");
         setFont(txt_driving,"AgencyR.TTF");
-        setFont(tv_transit,"AgencyR.TTF");
-        setFont(tv_bicycling,"AgencyR.TTF");
+        setFont(txt_transit,"AgencyR.TTF");
+        setFont(txt_bicycling,"AgencyR.TTF");
         setFont(txt_walking,"AgencyR.TTF");
 
         //On retourne l'item créé.
