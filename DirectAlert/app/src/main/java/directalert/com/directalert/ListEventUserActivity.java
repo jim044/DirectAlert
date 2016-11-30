@@ -85,6 +85,7 @@ public class ListEventUserActivity extends AppCompatActivity {
 //        });
 
         //Initialisation de la liste avec les données
+
         listEvent.setAdapter(adapter);
         listEventBis.setAdapter(adapterBis);
 

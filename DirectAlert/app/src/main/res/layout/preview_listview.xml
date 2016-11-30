@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="25dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         tools:text="Summary"
         />
@@ -24,7 +24,7 @@
         android:textColor="@android:color/black"
         android:layout_alignLeft="@+id/description"
         android:layout_below="@+id/description"
-        android:textSize="25dp"
+        android:textSize="15dp"
         tools:text="Location"
         />
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:columnCount="2"
         android:rowCount="4">
 
@@ -46,7 +46,7 @@
             android:id="@+id/driving"
             android:textColor="@android:color/black"
             android:layout_gravity="left|top"
-            android:textSize="25dp"
+            android:textSize="15dp"
             tools:text="En voiture : " />
 
         <ImageView
@@ -58,7 +58,7 @@
             android:id="@+id/transit"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="15dp"
             tools:text="En transport en commun : "
             />
 
@@ -71,7 +71,7 @@
             android:id="@+id/bicycling"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="15dp"
             tools:text="A vélo : "
             />
 
@@ -84,7 +84,7 @@
             android:id="@+id/walking"
             android:layout_gravity="left|top"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="15dp"
             tools:text="En marchant : "
             />
     </GridLayout>

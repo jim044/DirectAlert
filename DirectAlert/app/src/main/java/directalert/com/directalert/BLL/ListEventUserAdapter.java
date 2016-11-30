@@ -81,7 +81,7 @@ public class ListEventUserAdapter extends BaseAdapter {
         String dateStart = mListEvent.get(position).getStart().toString();
         dateStart = dateStart.substring(0,4) + '/' + dateStart.substring(5,7) + '/' + dateStart.substring(8,10) + ' ' + dateStart.substring(11,13) + "H " + dateStart.substring(14,16) + "MIN " + dateStart.substring(17,19) + "S";
 
-        txt_Summary.setText(" " + mListEvent.get(position).getSummary() + "(Le : " + dateStart + ")");
+        txt_Summary.setText(" " + mListEvent.get(position).getSummary() + " (Le : " + dateStart + ")");
         //txt_Description.setText(mListEvent.get(position).getDescription());
         txt_Location.setText(" " +  mListEvent.get(position).getLocation());
         txt_driving.setText(" " +  mListEvent.get(position).getDriving());
@@ -89,24 +89,45 @@ public class ListEventUserAdapter extends BaseAdapter {
         txt_bicycling.setText(" " +  mListEvent.get(position).getBicycling());
         txt_walking.setText(" " +  mListEvent.get(position).getWalking());
 
+        txt_driving.setTextColor(Color.BLACK);
+        txt_transit.setTextColor(Color.BLACK);
+        txt_bicycling.setTextColor(Color.BLACK);
+        txt_walking.setTextColor(Color.BLACK);
+
         if(txt_driving.getText().equals(" En retard"))
         {
             txt_driving.setTextColor(Color.RED);
+        }
+        else if (!txt_driving.getText().equals(" Non disponible"))
+        {
+            txt_driving.setTextColor(Color.parseColor("#408000"));
         }
 
         if(txt_transit.getText().equals(" En retard"))
         {
             txt_transit.setTextColor(Color.RED);
         }
+        else if (!txt_transit.getText().equals(" Non disponible"))
+        {
+            txt_transit.setTextColor(Color.parseColor("#408000"));
+        }
 
         if(txt_bicycling.getText().equals(" En retard"))
         {
             txt_bicycling.setTextColor(Color.RED);
         }
+        else if (!txt_bicycling.getText().equals(" Non disponible"))
+        {
+            txt_bicycling.setTextColor(Color.parseColor("#408000"));
+        }
 
         if(txt_walking.getText().equals(" En retard"))
         {
             txt_walking.setTextColor(Color.RED);
+        }
+        else if (!txt_walking.getText().equals(" Non disponible"))
+        {
+            txt_walking.setTextColor(Color.parseColor("#408000"));
         }
 
         setFont(txt_Summary,"AgencyR.TTF");

@@ -42,8 +42,13 @@ class DB_Functions {
         $start_event = date("Y-m-d H:i:s", $seconds+3600);
         $location = $event->{'location'};
 
+        $driving = $event->{'driving'};
+        $bicycling = $event->{'bicycling'};
+        $transit = $event->{'transit'};
+        $walking = $event->{'walking'};
 
-        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, location, date_event, id_user_mail) VALUES('$idEvent', '$unLibelle', '$location', '$start_event', '$mail')");
+
+        $result = $this->mysqli->query("INSERT INTO event_user (id_event_user, libelle, location, date_event, id_user_mail, driving, bicycling, transit, walking) VALUES('$idEvent', '$unLibelle', '$location', '$start_event', '$mail', '$driving', '$bicycling', '$transit', '$walking')");
  
         if ($result)
         {
