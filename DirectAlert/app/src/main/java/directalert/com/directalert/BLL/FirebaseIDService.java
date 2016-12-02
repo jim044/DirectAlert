@@ -11,6 +11,7 @@ import java.util.List;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BO.Token;
 import directalert.com.directalert.BO.User;
+import directalert.com.directalert.DAL.HttpRequest;
 
 /**
  * Created by user on 04/11/2016.
@@ -24,6 +25,10 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+        Token.getInstance().setDate_creation(new Date());
+        Token.getInstance().setUser(listCalendar.get(0).getUser());
+        Token.getInstance().setId_token(refreshedToken);
 
         Token token = new Token(refreshedToken, new Date(), listCalendar.get(0).getUser());
 

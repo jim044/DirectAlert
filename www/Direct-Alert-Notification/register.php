@@ -1,6 +1,6 @@
 <?php
 
- 
+
 if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"])) {
 
 
@@ -41,7 +41,8 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
     $response['message'] = "Je crois que tu t'es planté mon gars...";
     $response['success'] = 0;
 }
- 
+
+
 echo json_encode($response);    
  
 ?>

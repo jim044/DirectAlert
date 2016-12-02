@@ -1,4 +1,4 @@
-package directalert.com.directalert.BLL;
+package directalert.com.directalert.DAL;
 
 import android.os.AsyncTask;
 import android.util.Log;

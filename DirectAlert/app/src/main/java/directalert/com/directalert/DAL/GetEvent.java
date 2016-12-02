@@ -1,4 +1,4 @@
-package directalert.com.directalert.BLL;
+package directalert.com.directalert.DAL;
 
 import android.os.AsyncTask;
 import com.google.gson.Gson;
@@ -8,6 +8,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
+
+import directalert.com.directalert.BLL.ListEventUser;
 
 /**
  * Created by user on 23/11/2016.

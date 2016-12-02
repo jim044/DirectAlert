@@ -18,7 +18,18 @@ public class Token {
         this.user = user;
     }
 
+    public Token()
+    {
+    }
 
+    /** Instance unique non préinitialisée */
+    private static Token INSTANCE = new Token();
+
+    /** Point d'accès pour l'instance unique du singleton */
+    public static Token getInstance()
+    {
+        return INSTANCE;
+    }
 
     public String getId_token() {
         return id_token;

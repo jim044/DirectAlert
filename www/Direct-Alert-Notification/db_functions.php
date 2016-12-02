@@ -91,6 +91,11 @@ class DB_Functions {
         return $result;
     }
 
+    public function getEventByToken($token) {
+        $result = $this->mysqli->query("select evu.id_event_user, evu.libelle, evu.location, evu.date_event, evu.id_user_mail, evu.driving, evu.transit, evu.bicycling, evu.walking FROM event_user as evu INNER JOIN token as tk ON evu.id_user_mail = tk.id_user_mail WHERE tk.id_token='$token'");
+        return $result;
+    }
+
     public function InsertDateModif($id_event_user)
     {
         $newDate = new Date('Y-m-d H:i:s');

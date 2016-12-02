@@ -53,12 +53,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import directalert.com.directalert.BLL.GetEvent;
-import directalert.com.directalert.BLL.HttpRequest;
+import directalert.com.directalert.BO.Token;
+import directalert.com.directalert.DAL.GetEvent;
 import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BO.User;
+import directalert.com.directalert.DAL.Notify;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -393,6 +394,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 //mOutputText.setText(TextUtils.join("\n", output));
 
                 call_firebase(listEventUser);
+
+                new Notify().execute(Token.getInstance().getId_token());
 
                 AsyncTask resultattache = new GetEvent().execute(listEventUser.get(0).getUser());
 
