@@ -1,6 +1,11 @@
 <?php
 
 
+include_once "notifierByUser.php";
+
+$dbnotify = new DB_Notify();
+$dbnotify->notifierUsers();
+
 if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"])) {
 
 
@@ -10,6 +15,7 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
 
     // Store user details in db
     include_once "db_functions.php";
+    
  
     $db = new DB_Functions();
  
@@ -41,6 +47,8 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
     $response['message'] = "Je crois que tu t'es planté mon gars...";
     $response['success'] = 0;
 }
+
+
 
 
 echo json_encode($response);    
