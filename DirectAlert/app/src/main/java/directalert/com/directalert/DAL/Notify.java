@@ -1,6 +1,7 @@
 package directalert.com.directalert.DAL;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -19,8 +20,7 @@ import directalert.com.directalert.BLL.ListEventUser;
 
 public class Notify extends AsyncTask<Object, String, Response> {
 
-    private static final String REGISTER_URL = "http://jim044.000webhostapp.com/notifierByUser.php";
-    private static final String KEY_TOKEN = "token";
+    private static final String REGISTER_URL = "http://jim044.000webhostapp.com/notifier.php";
 
     OkHttpClient client = new OkHttpClient();
 
@@ -28,21 +28,17 @@ public class Notify extends AsyncTask<Object, String, Response> {
     protected Response doInBackground(Object... params) {
         Response response = null;
 
-        Gson gson = new Gson();
-        String jsonToken = gson.toJson(params[0]);
-
-        //jsonToken  = jsonToken.substring(1, jsonToken.length()-1);
-        RequestBody requestBody = new FormEncodingBuilder()
-                .add(KEY_TOKEN, jsonToken)
-                .build();
-
         Request request = new Request.Builder()
                 .url(REGISTER_URL)
-                .post(requestBody)
+                .get()
                 .build();
 
         try {
             response = client.newCall(request).execute();
+
+            String jsonData = response.body().string();
+
+            Log.d("json", jsonData);
         } catch (IOException e) {
             e.printStackTrace();
         }

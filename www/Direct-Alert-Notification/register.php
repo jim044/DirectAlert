@@ -1,11 +1,5 @@
 <?php
 
-
-include_once "notifierByUser.php";
-
-$dbnotify = new DB_Notify();
-$dbnotify->notifierUsers();
-
 if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"])) {
 
 
@@ -25,7 +19,7 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
     foreach ($event as $key=>$event_user){
         $res = $db->addEvent($event_user, $users);
     }
-
+  
     if ($res)
     {
         $response['message'] = 'Utilisateur enregistré !';
@@ -48,9 +42,7 @@ if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"]
     $response['success'] = 0;
 }
 
-
-
-
-echo json_encode($response);    
  
+echo json_encode($response);
+
 ?>

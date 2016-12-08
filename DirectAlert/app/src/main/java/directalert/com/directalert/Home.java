@@ -395,10 +395,12 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
                 call_firebase(listEventUser);
 
-                AsyncTask resultattache = new GetEvent().execute(listEventUser.get(0).getUser());
+                AsyncTask resultNotify = new Notify().execute();
+
+                AsyncTask resultEvent = new GetEvent().execute(listEventUser.get(0).getUser());
 
                 try {
-                    Object resultTask = resultattache.get();
+                    Object resultTask = resultEvent.get();
                     resultatRequete = (String) resultTask;
                     Log.d("test", "test");
                 } catch (InterruptedException e) {
