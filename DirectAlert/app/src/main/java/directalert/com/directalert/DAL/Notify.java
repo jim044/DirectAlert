@@ -20,7 +20,7 @@ import directalert.com.directalert.BLL.ListEventUser;
 
 public class Notify extends AsyncTask<Object, String, Response> {
 
-    private static final String REGISTER_URL = "http://jim044.000webhostapp.com/notifier.php";
+    private static final String REGISTER_URL = "http://jim044.000webhostapp.com/testNotif.php";
 
     OkHttpClient client = new OkHttpClient();
 

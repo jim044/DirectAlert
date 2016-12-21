@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -16,6 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -45,6 +49,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,11 +68,13 @@ import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BO.User;
 import directalert.com.directalert.DAL.Notify;
+import directalert.com.directalert.DAL.NotifyBis;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
+    private WebView mWebview;
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mCallApiButton;
@@ -89,6 +99,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        mWebview = (WebView) findViewById(R.id.webview_notify);
+        WebSettings webSettings = mWebview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
 
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
@@ -385,7 +400,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         @Override
         protected void onPostExecute(List<EventUser> output) {
             //mProgress.hide();
-            String resultatRequete = null;
+            final String[] resultatRequete = {null};
             if (output == null || output.size() == 0) {
                 //mOutputText.setText("No results returned.");
             } else {
@@ -395,55 +410,73 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
                 call_firebase(listEventUser);
 
-                AsyncTask resultNotify = new Notify().execute();
-
-                AsyncTask resultEvent = new GetEvent().execute(listEventUser.get(0).getUser());
-
                 try {
-                    Object resultTask = resultEvent.get();
-                    resultatRequete = (String) resultTask;
-                    Log.d("test", "test");
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
 
-                JSONArray jsontest = null;
-                try {
-                    jsontest = new JSONArray(resultatRequete);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                //new Notify().execute();
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+                // force web view to open inside application
 
-                for(int i = 0; i<jsontest.length(); i++)
-                    {
+
+                mWebview.loadUrl("http://jim044.000webhostapp.com/notifier.php");
+                //new NotifyBis().execute();
+                mWebview.setWebViewClient(new WebViewClient() {
+
+                    public void onPageFinished(WebView view, String url) {
+                        AsyncTask resultEvent = new GetEvent().execute(listEventUser.get(0).getUser());
+
                         try {
-                            JSONObject jsonObject = jsontest.getJSONObject(i);
-
-                            User user = new User(jsonObject.getString("id_user_mail"));
-
-                            Date date = simpleDateFormat.parse(jsonObject.getString("date_event"));
-                            DateTime start = new DateTime(date);
-
-                            if(start == null) {
-                                start = new DateTime(date);
-                            }
-
-                            listEventUserBis.add(new EventUser(jsonObject.getString("id_event_user"), start, jsonObject.getString("libelle"), jsonObject.getString("location"), user, jsonObject.getString("driving"),jsonObject.getString("transit"),jsonObject.getString("bicycling"), jsonObject.getString("walking")));
-                        } catch (JSONException e) {
+                            Object resultTask = resultEvent.get();
+                            resultatRequete[0] = (String) resultTask;
+                            Log.d("test", "test");
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
-                        } catch (ParseException e) {
+                        } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
 
-                    }
+                        JSONArray jsontest = null;
+                        try {
+                            jsontest = new JSONArray(resultatRequete[0]);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
-                myIntent.putExtra("listEventUser",(Parcelable)listEventUserBis);
-                startActivity(myIntent);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+
+                        for(int i = 0; i<jsontest.length(); i++)
+                        {
+                            try {
+                                JSONObject jsonObject = jsontest.getJSONObject(i);
+
+                                User user = new User(jsonObject.getString("id_user_mail"));
+
+                                Date date = simpleDateFormat.parse(jsonObject.getString("date_event"));
+                                DateTime start = new DateTime(date);
+
+                                if(start == null) {
+                                    start = new DateTime(date);
+                                }
+
+                                listEventUserBis.add(new EventUser(jsonObject.getString("id_event_user"), start, jsonObject.getString("libelle"), jsonObject.getString("location"), user, jsonObject.getString("driving"),jsonObject.getString("transit"),jsonObject.getString("bicycling"), jsonObject.getString("walking")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
+                        myIntent.putExtra("listEventUser",(Parcelable)listEventUserBis);
+                        startActivity(myIntent);
+                    }
+                });
+
+
 
             }
         }
