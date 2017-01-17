@@ -7,12 +7,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +27,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -72,7 +78,7 @@ import directalert.com.directalert.DAL.NotifyBis;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, LocationListener {
 
     private WebView mWebview;
     GoogleAccountCredential mCredential;
@@ -91,7 +97,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
     private ListEventUser listEventUser = new ListEventUser();
     private ListEventUser listEventUserBis = new ListEventUser();
 
@@ -138,6 +144,24 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             }
         });
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+            return;
+        }
+        else
+        {
+            Toast toast = Toast.makeText(Home.this, "Test", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
     }
 
@@ -322,6 +346,31 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         dialog.show();
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        int latitude = (int) (location.getLatitude());
+        int longitude = (int) (location.getLongitude());
+
+        Toast toast = Toast.makeText(Home.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_LONG);
+        toast.show();
+        Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -415,12 +464,9 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
                 //new Notify().execute();
 
-                // force web view to open inside application
-
-
+                mWebview.setVisibility(View.GONE);
                 mWebview.loadUrl("http://jim044.000webhostapp.com/notifier.php");
                 //new NotifyBis().execute();
                 mWebview.setWebViewClient(new WebViewClient() {
@@ -469,15 +515,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                             }
 
                         }
-
                         Intent myIntent = new Intent(Home.this, ListEventUserActivity.class);
                         myIntent.putExtra("listEventUser",(Parcelable)listEventUserBis);
                         startActivity(myIntent);
                     }
                 });
-
-
-
             }
         }
 
