@@ -1,6 +1,8 @@
 <?php
 
 	include_once "db_functions.php";
+
+	header ('Content-type: text/html');
 	echo "<script type='text/javascript' src='js/calcul_navigation.js'></script>";
 
 	$db = new DB_Functions();
@@ -34,8 +36,8 @@
 	        codeAddress(tab);
 	     </script>";
 
-	//$url1=$_SERVER['REQUEST_URI'];
-    //header("Refresh: 15; URL=$url1");
+	// $url1=$_SERVER['REQUEST_URI'];
+ //    header("Refresh: 15; URL=$url1");
 
 
 ?>

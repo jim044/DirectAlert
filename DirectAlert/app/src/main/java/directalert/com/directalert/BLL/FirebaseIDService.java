@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import directalert.com.directalert.BO.EventUser;
+import directalert.com.directalert.BO.Position;
 import directalert.com.directalert.BO.Token;
 import directalert.com.directalert.BO.User;
 import directalert.com.directalert.DAL.HttpRequest;
@@ -21,7 +22,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "FirebaseIDService";
 
-    public void onTokenRefresh(List<EventUser> listCalendar) {
+    public void onTokenRefresh(List<EventUser> listCalendar, Position position) {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
@@ -33,7 +34,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
         Token token = new Token(refreshedToken, new Date(), listCalendar.get(0).getUser());
 
         // TODO: Implement this method to send any registration to your app's servers.
-        sendRegistrationToServer(listCalendar, token, listCalendar.get(0).getUser());
+        sendRegistrationToServer(listCalendar, token, listCalendar.get(0).getUser(), position);
     }
 
     /**
@@ -44,7 +45,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(List<EventUser> listCalendar, Token token, User user) {
-        new HttpRequest().execute(listCalendar, token, user);
+    private void sendRegistrationToServer(List<EventUser> listCalendar, Token token, User user, Position position) {
+        new HttpRequest().execute(listCalendar, token, user, position);
     }
 }

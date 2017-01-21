@@ -13,10 +13,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -55,10 +55,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,14 +64,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import directalert.com.directalert.BO.Token;
+import directalert.com.directalert.BO.Position;
 import directalert.com.directalert.DAL.GetEvent;
 import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BO.User;
-import directalert.com.directalert.DAL.Notify;
-import directalert.com.directalert.DAL.NotifyBis;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -86,31 +81,43 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     private Button mCallApiButton;
     private String accountName;
     ProgressDialog mProgress;
-
+    protected LocationManager locationManager;
     GoogleApiClient mGoogleApiClient;
     private static final String TAG = "Home";
     private static final int RC_SIGN_IN = 9001;
-
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
     private ListEventUser listEventUser = new ListEventUser();
     private ListEventUser listEventUserBis = new ListEventUser();
+    public static final int LOCATION_REQUEST_CODE = 1001; //Any number
+    public Double latitude;
+    public Double longitude;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //Get position User
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+        } else {
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER
+                    ,1000*60,2,this);
+            Location location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
+        //Instanciation du Webviewer
         mWebview = (WebView) findViewById(R.id.webview_notify);
         WebSettings webSettings = mWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
 
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -134,35 +141,35 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
                 signIn();
 
-
-                // Initialize credentials and service object.
                 mCredential = GoogleAccountCredential.usingOAuth2(
                         getApplicationContext(), Arrays.asList(SCOPES))
                         .setBackOff(new ExponentialBackOff());
 
                 getResultsFromApi();
-
             }
         });
+    }
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-            return;
-        }
-        else
-        {
-            Toast toast = Toast.makeText(Home.this, "Test", Toast.LENGTH_LONG);
-            toast.show();
-        }
+    @Override
+    public void onLocationChanged(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.d("Position","Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+    }
 
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enable");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
     }
 
     private void getResultsFromApi() {
@@ -346,31 +353,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         dialog.show();
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        int latitude = (int) (location.getLatitude());
-        int longitude = (int) (location.getLongitude());
-
-        Toast toast = Toast.makeText(Home.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_LONG);
-        toast.show();
-        Log.i("Geo_Location", "Latitude: " + latitude + ", Longitude: " + longitude);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -464,11 +446,9 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //new Notify().execute();
 
                 mWebview.setVisibility(View.GONE);
                 mWebview.loadUrl("http://jim044.000webhostapp.com/notifier.php");
-                //new NotifyBis().execute();
                 mWebview.setWebViewClient(new WebViewClient() {
 
                     public void onPageFinished(WebView view, String url) {
@@ -525,8 +505,9 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
         public void call_firebase(List<EventUser> listcalendar)
         {
+            Position position = new Position(latitude, longitude, new Timestamp(System.currentTimeMillis()));
             FirebaseIDService unFire = new FirebaseIDService();
-            unFire.onTokenRefresh(listcalendar);
+            unFire.onTokenRefresh(listcalendar, position);
         }
 
         @Override

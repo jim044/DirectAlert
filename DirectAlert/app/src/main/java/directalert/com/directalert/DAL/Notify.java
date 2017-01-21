@@ -35,7 +35,6 @@ public class Notify extends AsyncTask<Object, String, Response> {
 
         try {
             response = client.newCall(request).execute();
-
             String jsonData = response.body().string();
 
             Log.d("json", jsonData);

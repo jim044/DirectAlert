@@ -27,7 +27,7 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
     private static final String KEY_TOKEN = "gcm_token";
     private static final String KEY_USER = "user";
     private static final String KEY_EVENT = "event";
-
+    private static final String KEY_POSITION = "position";
 
     OkHttpClient client = new OkHttpClient();
 
@@ -39,14 +39,13 @@ public class HttpRequest extends AsyncTask<Object, String, Response>{
         String jsonListCalendar = gson.toJson(params[0]);
         String jsonToken = gson.toJson(params[1]);
         String jsonUser = gson.toJson(params[2]);
+        String jsonPosition = gson.toJson(params[3]);
         RequestBody requestBody = new FormEncodingBuilder()
                 .add(KEY_TOKEN, jsonToken)
                 .add(KEY_USER, jsonUser)
                 .add(KEY_EVENT, jsonListCalendar)
+                .add(KEY_POSITION, jsonPosition)
                 .build();
-
-        //
-        //
 
         Request request = new Request.Builder()
                 .url(REGISTER_URL)
