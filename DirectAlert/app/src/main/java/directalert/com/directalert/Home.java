@@ -108,11 +108,21 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER
-                    ,1000*60,2,this);
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0,this);
             Location location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0,this);
+//        if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+//            locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER,1000*60,2,this);
+//
+//            if(locationManager != null)
+//            {
+//                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+//                Log.d("Test Log", Double.toString(location.getLongitude()));
+//            }
+//
+//        }
 
         //Instanciation du Webviewer
         mWebview = (WebView) findViewById(R.id.webview_notify);
@@ -303,8 +313,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
      * @return true if the device has a network connection, false otherwise.
      */
     private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
