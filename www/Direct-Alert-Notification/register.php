@@ -2,19 +2,17 @@
 
 if (isset($_POST["gcm_token"]) && isset($_POST["user"]) && isset($_POST["event"])) {
 
+    include_once "db_functions.php";
 
     $gcm_token = json_decode($_POST["gcm_token"]);
     $users = json_decode($_POST["user"]);
     $event = json_decode($_POST["event"]);
+    $position = json_decode($_POST["position"]);
 
-    // Store user details in db
-    include_once "db_functions.php";
-    
- 
     $db = new DB_Functions();
- 
     $res = $db->addUser($users);
     $res = $db->addToken($gcm_token, $users);
+    $res = $db->addPosition($position, $gcm_token, $users);
     
     foreach ($event as $key=>$event_user){
         $res = $db->addEvent($event_user, $users);

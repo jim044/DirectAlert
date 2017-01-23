@@ -32,6 +32,29 @@ class DB_Functions {
         }
     }
 
+    public function get_Last_Position_User($token)
+    {
+
+    }
+    public function addPosition($position, $token, $users)
+    {
+    	$latitude = $position->{'latitude'};
+    	$longitude = $position->{'longitude'};
+    	$id_token = $token->{'id_token'};
+    	$mail = $users->{'mail'};
+
+    	$result = $this->mysqli->query("INSERT INTO position (mail_user, token, latitude, longitude) VALUES('$mail', '$id_token', '$latitude', '$longitude')");
+ 
+        if ($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function addEvent($event, $users) {
 
         $mail = $users->{'mail'};

@@ -17,6 +17,7 @@
 	             
 	while ($row = $res->fetch_assoc()) {
 		$resBis = $db->getEvent($row["id_user_mail"]);
+		//$get_last_position_user = $db->get_Last_Position_User($row["id_token"]);
 		while ($rowBis = $resBis->fetch_assoc()) {
 
 	         if(empty($rowBis["location"]) == false)
