@@ -439,7 +439,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 //output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
 
-                call_firebase(listEventUser);
+                try {
+                    call_firebase(listEventUser);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     Thread.sleep(1000);
@@ -503,8 +507,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
             }
         }
 
-        public void call_firebase(List<EventUser> listcalendar)
-        {
+        public void call_firebase(List<EventUser> listcalendar) throws InterruptedException {
+            Thread.sleep(2000);
             Position position = new Position(latitude, longitude, new Timestamp(System.currentTimeMillis()));
             FirebaseIDService unFire = new FirebaseIDService();
             unFire.onTokenRefresh(listcalendar, position);

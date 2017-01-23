@@ -15,21 +15,21 @@ public class Position {
     private User user;
     private Token token;
     private Double latitude;
-    private Double longitutde;
+    private Double longitude;
     private Timestamp date_position;
 
-    public Position(int id, User user, Token token, Double latitude, Double longitutde, Timestamp date_position) {
+    public Position(int id, User user, Token token, Double latitude, Double longitude, Timestamp date_position) {
         this.id = id;
         this.user = user;
         this.token = token;
         this.latitude = latitude;
-        this.longitutde = longitutde;
+        this.longitude = longitude;
         this.date_position = date_position;
     }
 
-    public Position(Double latitude, Double longitutde, Timestamp date_position) {
+    public Position(Double latitude, Double longitude, Timestamp date_position) {
         this.latitude = latitude;
-        this.longitutde = longitutde;
+        this.longitude = longitude;
         this.date_position = date_position;
     }
 
@@ -65,12 +65,12 @@ public class Position {
         this.latitude = latitude;
     }
 
-    public Double getLongitutde() {
-        return longitutde;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setLongitutde(Double longitutde) {
-        this.longitutde = longitutde;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Timestamp getDate_position() {
