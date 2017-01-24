@@ -3,7 +3,8 @@
 include_once "db_functions.php";
 
 	$db = new DB_Functions();
-	$res = $db->getEvent("jimmyvillossel@gmail.com");
+	$mail_user = json_decode($_POST["mail_user"]);
+	$res = $db->getEvent($mail_user);
 	$jsonarrayvalue = array();
 	$i = 0;
 

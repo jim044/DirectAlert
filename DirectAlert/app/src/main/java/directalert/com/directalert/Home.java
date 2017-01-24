@@ -5,9 +5,11 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,9 +18,11 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +32,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -37,6 +42,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.LocationSource;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
@@ -55,6 +62,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.Provider;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,15 +73,18 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import directalert.com.directalert.BO.Position;
+import directalert.com.directalert.BO.Token;
 import directalert.com.directalert.DAL.GetEvent;
 import directalert.com.directalert.BLL.ListEventUser;
 import directalert.com.directalert.BO.EventUser;
 import directalert.com.directalert.BLL.FirebaseIDService;
 import directalert.com.directalert.BO.User;
+import directalert.com.directalert.DAL.HttpRequest;
+import directalert.com.directalert.DAL.InsertPosition;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, LocationListener {
+public class Home extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private WebView mWebview;
     GoogleAccountCredential mCredential;
@@ -94,35 +105,14 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
     private ListEventUser listEventUser = new ListEventUser();
     private ListEventUser listEventUserBis = new ListEventUser();
     public static final int LOCATION_REQUEST_CODE = 1001; //Any number
-    public Double latitude;
-    public Double longitude;
+    public Double latitude = 0.0;
+    public Double longitude = 0.0;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        //Get position User
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
-        } else {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0,this);
-            Location location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
-        }
-
-        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0,this);
-//        if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
-//            locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER,1000*60,2,this);
-//
-//            if(locationManager != null)
-//            {
-//                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-//                Log.d("Test Log", Double.toString(location.getLongitude()));
-//            }
-//
-//        }
 
         //Instanciation du Webviewer
         mWebview = (WebView) findViewById(R.id.webview_notify);
@@ -156,30 +146,110 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                         .setBackOff(new ExponentialBackOff());
 
                 getResultsFromApi();
+
+                GetPositionAsync getPostionAsync = new GetPositionAsync();
+                getPostionAsync.execute();
             }
         });
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        Log.d("Position","Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
-    }
+    public class GetPositionAsync extends AsyncTask<Provider, String, Void> {
+        public LocationManager mLocationManager;
+        public GetPosition getPosition;
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
-    }
+        @Override
+        protected void onPreExecute() {
+            getPosition = new GetPosition();
+            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+            } else {
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, getPosition);
+            }
 
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
-    }
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, getPosition);
+            if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showAlertGPS();
+            }
+        }
 
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
+        private void showAlertGPS() {
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(Home.this);
+            dialog.setTitle("Localisation impossible")
+                    .setMessage("Votre GPS n'est pas activé. Veuillez l'activer pour continuer." +
+                            "Utiliser ce lien pour modifier les paramètres de localisation.")
+                    .setPositiveButton("Paramètres de localisation", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        }
+                    });
+            dialog.show();
+        }
+        @Override
+        protected void onCancelled() {
+            System.out.println("Cancelled by user!");
+            if (ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Home.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST_CODE);
+            }
+            mLocationManager.removeUpdates(getPosition);
+        }
+
+        protected void onPostExecute(String result) {
+            Toast.makeText(Home.this,
+                    "LATITUDE :" + latitude + " LONGITUDE :" + longitude,
+                    Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(Provider... params) {
+            //Get position User
+            while (latitude == 0.0) {
+            }
+            return null;
+        }
+
+        public class GetPosition implements LocationListener, LocationSource {
+            @Override
+            public void onLocationChanged(Location location) {
+                latitude = location.getLatitude(); // * 1E6);
+                longitude = location.getLongitude(); // * 1E6);
+                Position position = new Position(latitude, longitude);
+                new InsertPosition().execute(Token.getInstance(), listEventUser.get(0).getUser(), position);
+            }
+            @Override
+            public void onProviderDisabled(String provider) {
+                Log.i("OnProviderDisabled", "OnProviderDisabled");
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Log.i("onProviderEnabled", "onProviderEnabled");
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status,
+                                        Bundle extras) {
+                Log.i("onStatusChanged", "onStatusChanged");
+
+            }
+
+            @Override
+            public void activate(OnLocationChangedListener onLocationChangedListener) {
+
+            }
+
+            @Override
+            public void deactivate() {
+
+            }
+        }
     }
 
     private void getResultsFromApi() {
@@ -188,7 +258,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
+//            mOutputText.setText("No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -236,9 +306,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
                 } else {
                     getResultsFromApi();
                 }
@@ -362,6 +429,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         dialog.show();
     }
 
+
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -465,7 +533,7 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                 mWebview.setWebViewClient(new WebViewClient() {
 
                     public void onPageFinished(WebView view, String url) {
-                        AsyncTask resultEvent = new GetEvent().execute(listEventUser.get(0).getUser());
+                        AsyncTask resultEvent = new GetEvent().execute(listEventUser.get(0).getUser().getMail());
 
                         try {
                             Object resultTask = resultEvent.get();
@@ -517,10 +585,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         }
 
         public void call_firebase(List<EventUser> listcalendar) throws InterruptedException {
-            Thread.sleep(2000);
-            Position position = new Position(latitude, longitude, new Timestamp(System.currentTimeMillis()));
             FirebaseIDService unFire = new FirebaseIDService();
-            unFire.onTokenRefresh(listcalendar, position);
+            unFire.onTokenRefresh(listcalendar);
         }
 
         @Override
@@ -536,11 +602,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             Home.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+//                    mOutputText.setText("The following error occurred:\n"
+//                            + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+//                mOutputText.setText("Request cancelled.");
             }
         }
     }

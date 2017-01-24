@@ -18,7 +18,7 @@ import directalert.com.directalert.BLL.ListEventUser;
 public class GetEvent extends AsyncTask<Object, String, String> {
 
     private static final String REGISTER_URL = "http://jim044.000webhostapp.com/getEventForAndroid.php";
-    private static final String KEY_USER = "user";
+    private static final String KEY_USER = "mail_user";
     private ListEventUser listEventUser = new ListEventUser();
 
     OkHttpClient client = new OkHttpClient();

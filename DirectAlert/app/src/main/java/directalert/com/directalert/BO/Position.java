@@ -33,6 +33,11 @@ public class Position {
         this.date_position = date_position;
     }
 
+    public Position(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public int getId() {
         return id;
     }
